@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EasyModular.AutoMapper" Version="1.0.0" />
+    <PackageReference Include="EasyModular.Utils" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Demo.ModularB.Domain\Demo.ModularB.Domain.csproj" />
+    <ProjectReference Include="..\Demo.ModularB.Infrastructure\Demo.ModularB.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

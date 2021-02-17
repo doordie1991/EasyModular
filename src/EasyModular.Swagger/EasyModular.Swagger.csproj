@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Authors>陈曦</Authors>
+    <Company>DOORDIE</Company>
+    <Description>基于Swashbuckle扩展，可按模块生成可视化 RESTful 风格的 Web 服务</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EasyModular" Version="1.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="5.6.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="5.6.3" />
+  </ItemGroup>
+
+</Project>

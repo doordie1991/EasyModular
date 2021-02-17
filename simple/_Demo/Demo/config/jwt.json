@@ -1,0 +1,10 @@
+{
+  //秘钥
+  "Key": "U2FsdGVkX1+MgCkz7tgNBQnxmWttSj1T+oZ6nj2hz0M=",
+  //发行商
+  "Issuer": "doordie",
+  //订阅者
+  "Audience": "doordie",
+  //有效期(分钟)
+  "Expires": 120
+}

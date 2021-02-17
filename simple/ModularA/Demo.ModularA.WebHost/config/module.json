@@ -1,0 +1,9 @@
+﻿[
+  {
+    "Id": "Demo.ModularA",
+    "Name": "模块A",
+    "Icon": "permission",
+    "Version": "1.0.0",
+    "Description": "模块A"
+  }
+]

@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>preview</LangVersion>
+    <Authors>陈曦</Authors>
+    <Company>DOORDIE</Company>
+    <Description>基于SqlSugar的扩展和封装</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EasyModular" Version="1.0.0" />
+    <PackageReference Include="EasyModular.Auth" Version="1.0.0" />
+    <PackageReference Include="EasyModular.Utils" Version="1.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
+    <PackageReference Include="SqlSugarCore" Version="5.0.2.6" />
+  </ItemGroup>
+
+</Project>

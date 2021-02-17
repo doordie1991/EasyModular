@@ -1,0 +1,6 @@
+{
+  //是否开启权限认证
+  "IsValidate": false,
+  //是否启用单账户登录
+  "IsSingleAccount": false
+}
