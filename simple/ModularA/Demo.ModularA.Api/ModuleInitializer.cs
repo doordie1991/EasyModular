@@ -10,10 +10,10 @@ using System.Text;
 namespace Demo.ModularA.Api
 {
     public class ModuleInitializer : IModuleInitializer
-    {
+    { 
         public void ConfigureServices(IServiceCollection services)
         {
-
+            //Todo
         }
 
         public void Configure(IApplicationBuilder app, IHostEnvironment env)
