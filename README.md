@@ -1,11 +1,19 @@
-![20210221155650](https://raw.githubusercontent.com/doordie1991/PicBed/main/picture/20210221155650.png)
+![20210222002554](https://raw.githubusercontent.com/doordie1991/PicBed/main/picture/20210222002554.png)
 ## EasyModular
 EasyModular是基于NeCore3.1的简易模块化框架，开箱即用，1分钟即可以搭建一个简单可用的模块化框架。
 
 ## 安装使用
-**安装核心组件**：Install-Package EasyModular
+| 组件 | Nuget | 是否必须 |
+| :----:| :----: | :----: |
+| 模块化核心库 | Install-Package EasyModular | √ |
+| 接口文档 | Install-Package EasyModular.Swagger | × |
+| ORM | Install-Package EasyModular.SqlSugar | × |
+| 模型验证 | Install-Package EasyModular.FluentValidation | × |
+| 身份验证 | Install-Package EasyModular.Auth<br> Install-Package EasyModular.Jwt| × |
+| 日志 | Install-Package EasyModular.Serilog | × |
+| 缓存 | Install-Package EasyModular.Cache | × |
+| 工具类库 | Install-Package EasyModular.Utils | × |
 
-EasyModular提供了很多实用的基础组件，可以按需去安装，如：管理接口文档的组件：EasyModular.Swagger，基于SqlSugar的模块化ORM组件：EasyModular.SqlSugar等等。
 
 **Startup.cs 添加组件服务**
 ![20210221162959](https://raw.githubusercontent.com/doordie1991/PicBed/main/picture/20210221162959.png)
@@ -22,11 +30,3 @@ EasyModular提供了很多实用的基础组件，可以按需去安装，如：
 
 ## 官方Demo
 还在写.....:joy:
-
-
-
-
-
-
-
-
