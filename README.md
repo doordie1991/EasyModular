@@ -4,7 +4,7 @@
 </div>
 
 
-## EasyModular是基于NeCore3.1的简易模块化框架，开箱即用，1分钟即可以搭建一个简单可用的模块化框架
+## <font color="green">EasyModular</font>是基于NeCore3.1的简易模块化框架，开箱即用，1分钟即可以搭建一个简单可用的模块化框架
 
 ![20210222002554](https://raw.githubusercontent.com/doordie1991/PicBed/main/picture/20210222002554.png)
 
