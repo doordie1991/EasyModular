@@ -1,6 +1,6 @@
 ![20210221155650](https://raw.githubusercontent.com/doordie1991/PicBed/main/picture/20210221155650.png)
 ## EasyModular
-EasyModular是基于NeCore3.1的简易模块化框架，开箱即用，1分钟既可以搭建一个简单可用的模块化框架。
+EasyModular是基于NeCore3.1的简易模块化框架，开箱即用，1分钟即可以搭建一个简单可用的模块化框架。
 
 ## 安装使用
 **安装核心组件**：Install-Package EasyModular
