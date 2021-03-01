@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EasyModular" Version="1.0.1" />
+    <PackageReference Include="EasyModular" Version="1.0.2" />
     <PackageReference Include="EasyModular.Auth" Version="1.0.1" />
     <PackageReference Include="EasyModular.AutoMapper" Version="1.0.0" />
     <PackageReference Include="EasyModular.Cache" Version="1.0.0" />

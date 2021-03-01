@@ -11,6 +11,11 @@ namespace EasyModular
     public interface IModuleAssemblyDescriptor
     {
         /// <summary>
+        /// Api
+        /// </summary>
+        Assembly Api { get; set; }
+
+        /// <summary>
         /// 应用层服务
         /// </summary>
         Assembly Application { get; set; }

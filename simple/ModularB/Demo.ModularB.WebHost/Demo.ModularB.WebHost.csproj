@@ -1,11 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EasyModular" Version="1.0.1" />
+    <PackageReference Include="EasyModular" Version="1.0.2" />
     <PackageReference Include="EasyModular.Auth" Version="1.0.1" />
     <PackageReference Include="EasyModular.AutoMapper" Version="1.0.0" />
     <PackageReference Include="EasyModular.Cache" Version="1.0.0" />

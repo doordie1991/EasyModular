@@ -43,7 +43,8 @@ namespace EasyModular
                 services.AddMvcCore(c =>
                 {
                     ((ModuleDescriptor)module).Initializer?.ConfigureMvc(c);
-                });
+                })
+                .AddApplicationPart(module.AssemblyDescriptor.Api);
             }
         }
 
