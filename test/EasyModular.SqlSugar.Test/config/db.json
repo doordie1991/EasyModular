@@ -1,0 +1,6 @@
+{
+  "ModuleId": "Demo.ModularA",
+  "DbType": 1, //0:MySql,1:SqlServer,2:Sqlite,3:Oracle,4:PostgreSQL
+  "ConnectionString": "server=.;user id=sa; password=cwh82813788; database=EM_Admin;",
+  "IsPintLog": true
+}
