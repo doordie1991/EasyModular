@@ -26,23 +26,23 @@ namespace Demo.ModularA.Application.Test
         {
             try
             {
-                _dbContext.Db.BeginTran();
-             
                 var userEntity = new UserEntity()
                 {
                     UserCode = "11",
-                    UserName = "22",
+                    UserName = "888888",
                     Password="33"
                 };
-                var res1 = await _userRepository.InsertAsync(userEntity, false);
 
                 var organizationEntity = new OrganizationEntity()
                 {
                     OrganizeCode = "33",
-                    OrganizeName = "44"
+                    OrganizeName = "44",
+                    ParentCode="55"
                 };
 
-                var res2 = await _organizationRepositor.InsertAsync(organizationEntity, false);
+                _dbContext.Db.BeginTran();
+                var res1 = await _userRepository.InsertAsync(userEntity, _dbContext.Db);
+                var res2 = await _organizationRepositor.InsertAsync(organizationEntity, _dbContext.Db);
 
                 if (res1 && res2)
                     _dbContext.Db.CommitTran();
