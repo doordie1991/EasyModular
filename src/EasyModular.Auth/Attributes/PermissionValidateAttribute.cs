@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using EasyModular.Utils;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System;
@@ -21,15 +22,15 @@ namespace EasyModular.Auth
             if (context.ActionDescriptor.EndpointMetadata.Any(m => m.GetType() == typeof(AllowAnonymousAttribute)))
                 return;
 
-            var permissionConfig = context.HttpContext.RequestServices.GetService(typeof(PermissionConfigModel)) as PermissionConfigModel;
-            if (permissionConfig != null)
+            var config = context.HttpContext.RequestServices.GetService(typeof(WebConfigModel)) as WebConfigModel;
+            if (config != null)
             {
                 //是否开启权限认证
-                if (!permissionConfig.IsValidate)
+                if (!config.IsValidate)
                     return;
 
                 //是否启用单账户登录
-                if (permissionConfig.IsSingleAccount)
+                if (config.IsSingleAccount)
                 {
                     var singleAccountLoginHandler = context.HttpContext.RequestServices.GetService(typeof(ISingleAccountLoginHandler)) as ISingleAccountLoginHandler;
                     if (singleAccountLoginHandler != null && singleAccountLoginHandler.Validate().GetAwaiter().GetResult())
@@ -53,9 +54,8 @@ namespace EasyModular.Auth
             if (context.ActionDescriptor.EndpointMetadata.Any(m => m.GetType() == typeof(CommonAttribute)))
                 return;
 
-            var httpMethod = (HttpMethod)Enum.Parse(typeof(HttpMethod), context.HttpContext.Request.Method);
             var handler = context.HttpContext.RequestServices.GetService(typeof(IPermissionValidateHandler)) as IPermissionValidateHandler;
-            if (!handler.Validate(context.ActionDescriptor.RouteValues, httpMethod))
+            if (!handler.Validate(context.ActionDescriptor.RouteValues, context.HttpContext.Request.Method))
             {
                 //无权访问
                 context.Result = new ForbidResult();

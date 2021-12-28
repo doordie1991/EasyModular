@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace EasyModular.Auth
 {
@@ -12,7 +14,7 @@ namespace EasyModular.Auth
         /// <summary>
         /// 用户Id
         /// </summary>
-        Guid UserId { get; }
+        string UserId { get; }
 
         /// <summary>
         /// 用户编码
@@ -25,14 +27,44 @@ namespace EasyModular.Auth
         string UserName { get; }
 
         /// <summary>
-        /// 组织编号
+        /// 组织Id
         /// </summary>
-        string OrganizeCode { get; }
+        string OrganizeId { get; }
 
         /// <summary>
-        /// 组织名称
+        /// 租户Id
         /// </summary>
-        string OrganizeName { get; }
+        string TenantId { get; }
+
+        /// <summary>
+        /// 租户名称
+        /// </summary>
+        string TenantName { get; }
+
+        /// <summary>
+        /// 租户类别
+        /// </summary>
+        string TenantType { get; }
+
+        /// <summary>
+        /// 行业
+        /// </summary>
+        string Trade { get; }
+
+        /// <summary>
+        /// 角色Id
+        /// </summary>
+        string RoleIds { get; }
+
+        /// <summary>
+        /// 角色编码
+        /// </summary>
+        string RoleCodes { get; }
+
+        /// <summary>
+        /// 角色名称
+        /// </summary>
+        string RoleNames { get; }
 
         /// <summary>
         /// 获取当前用户IP(包含IPv和IPv6)
@@ -53,5 +85,7 @@ namespace EasyModular.Auth
         /// 登录时间戳
         /// </summary>
         long LoginTime { get; }
+
+
     }
 }

@@ -35,6 +35,11 @@ namespace EasyModular
         string Description { get; set; }
 
         /// <summary>
+        /// 序号
+        /// </summary>
+         int Sort { get; set; }
+
+        /// <summary>
         /// 程序集信息
         /// </summary>
         IModuleAssemblyDescriptor AssemblyDescriptor { get; set; }

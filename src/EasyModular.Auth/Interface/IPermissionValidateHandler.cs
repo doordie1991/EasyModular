@@ -14,6 +14,6 @@ namespace EasyModular.Auth
         /// 验证
         /// </summary>
         /// <returns></returns>
-        bool Validate(IDictionary<string, string> routeValues, HttpMethod httpMethod);
+        bool Validate(IDictionary<string, string> routeValues, string httpMethod);
     }
 }

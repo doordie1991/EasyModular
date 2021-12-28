@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\src\EasyModular.AutoMapper\EasyModular.AutoMapper.csproj" />
+		<ProjectReference Include="..\..\..\src\EasyModular.Cache\EasyModular.Cache.csproj" />
+		<ProjectReference Include="..\..\..\src\EasyModular.Quartz\EasyModular.Quartz.csproj" />
+		<ProjectReference Include="..\Demo.Scheduling.Domain\Demo.Scheduling.Domain.csproj" />
+		<ProjectReference Include="..\Demo.Scheduling.Infrastructure\Demo.Scheduling.Infrastructure.csproj" />
+	</ItemGroup>
+
+</Project>

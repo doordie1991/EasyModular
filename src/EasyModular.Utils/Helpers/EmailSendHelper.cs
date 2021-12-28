@@ -4,7 +4,7 @@ using System.Net.Mail;
 using System.Net.Mime;
 using System.Text;
 
-namespace EasyModular.Utils.Helpers
+namespace EasyModular.Utils
 {
     /// <summary>
     /// 右邮件帮助类

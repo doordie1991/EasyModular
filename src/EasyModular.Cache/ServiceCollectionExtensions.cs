@@ -1,10 +1,9 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using Microsoft.Extensions.DependencyInjection;
-using EasyModular.Utils.Helpers;
+using EasyModular.Utils;
 
 namespace EasyModular.Cache
 {
@@ -18,10 +17,10 @@ namespace EasyModular.Cache
         /// <returns></returns>
         public static IServiceCollection AddEasyModularCache(this IServiceCollection services)
         {
-            var cacheOptions = ConfigHelper.GetModel<CacheOptions>(Path.Combine(AppContext.BaseDirectory, "config/cache.json"));
-            services.AddSingleton(cacheOptions);
+            var sp = services.BuildServiceProvider();
+            var webCofing = sp.GetService<WebConfigModel>();
 
-            switch(cacheOptions.Mode)
+            switch (webCofing.Cache.Mode)
             {
                 case CacheMode.MemoryCache:
                     services.AddMemoryCache();
@@ -29,7 +28,7 @@ namespace EasyModular.Cache
                     break;
 
                 case CacheMode.Redis:
-                    var redisHelper = new RedisHelper(cacheOptions.Redis);
+                    var redisHelper = new RedisHelper(webCofing.Cache.Prefix, webCofing.Cache.ConnectionString);
                     services.AddSingleton(redisHelper);
                     services.AddSingleton<ICacheHandler, RedisCacheHandler>();
                     break;

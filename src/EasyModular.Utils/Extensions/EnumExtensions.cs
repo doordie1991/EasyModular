@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 
-namespace EasyModular.Utils.Lib.Utils.Core.Extensions
+namespace EasyModular.Utils
 {
     public static class EnumExtensions
     {

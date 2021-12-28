@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Remove="Tenant\TenantService.cs~RF183e3ef3.TMP" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\src\EasyModular.AutoMapper\EasyModular.AutoMapper.csproj" />
+		<ProjectReference Include="..\..\..\src\EasyModular.Cache\EasyModular.Cache.csproj" />
+		<ProjectReference Include="..\..\..\src\EasyModular.Utils\EasyModular.Utils.csproj" />
+		<ProjectReference Include="..\Demo.Admin.Domain\Demo.Admin.Domain.csproj" />
+		<ProjectReference Include="..\Demo.Admin.Infrastructure\Demo.Admin.Infrastructure.csproj" />
+	</ItemGroup>
+
+</Project>

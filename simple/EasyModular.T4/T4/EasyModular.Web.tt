@@ -1,0 +1,122 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ assembly name="System.Data"#>
+
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.IO" #> 
+<#@ import namespace="Newtonsoft.Json" #> 
+<#@ import namespace="System.Data" #>
+<#@ import namespace="System.Reflection" #> 
+<#@ import namespace="MySql.Data.MySqlClient" #>
+
+<#@ assembly name="$(ProjectDir)\_Library\MySql.Data.dll" #>
+<#@ assembly name="$(ProjectDir)\_Library\Newtonsoft.Json.dll" #>
+
+<#@ include file="$(ProjectDir)/Model/ConfigModel.ttinclude"#> 
+<#@ include file="$(ProjectDir)/Helper/OutputHelper.ttinclude"#> 
+<#@ include file="$(ProjectDir)/Helper/MySqlDbHelper.ttinclude"#> 
+
+<# var manager = new Manager(Host, GenerationEnvironment, true); #>  
+
+<# 
+    //***********************直接ctrl+s即可以运行**************************
+
+    var solutionDir = Host.ResolveAssemblyReference("$(SolutionDir)"); //当解决方案目录
+    var projectDir = Host.ResolveAssemblyReference("$(ProjectDir)"); //当前项目目录
+
+    var configUrl = Path.Combine(projectDir, "config.json");
+    using var streamReader = new StreamReader(configUrl);
+    var config = JsonConvert.DeserializeObject<ConfigModel>(streamReader.ReadToEnd());
+
+    var projectName=$"{config.Module}.Web";
+    var projectPath=Path.Combine(solutionDir,config.ProjectPath,projectName);
+    if (!Directory.Exists(projectPath))  
+    {  
+        Directory.CreateDirectory(projectPath);  
+    } 
+
+    var apiDir=Path.Combine(projectPath,"Controllers");
+    if (!Directory.Exists(apiDir))  
+    {  
+        Directory.CreateDirectory(apiDir);  
+    } 
+  
+    var _db =new MySqlDbHelper(projectDir);
+
+    var tables=_db.GetDbTables(config.Prefix,config.TableName);
+    foreach(var table in tables)
+    {
+       var tableName = table.table_name.Substring(config.Prefix.Length - 1).Replace("_", "");
+
+       //生成Controller
+       manager.StartBlock(tableName+"Controller.cs",apiDir);
+       #> 
+using EasyModular.Auth;
+using EasyModular.Utils;
+using <#=config.Module#>.Application;
+using <#=config.Module#>.Application.<#=tableName#>Service;
+using <#=config.Module#>.Domain;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace <#=projectName#>
+{
+    [Description("<#=table.table_comment.Replace("表","")#>")]
+    public class  <#=tableName#>Controller : ModuleController
+    {
+        private readonly I<#=tableName#>Service _service;
+
+        public  <#=tableName#>Controller(ILoginInfo loginInfo,I<#=tableName#>Service <#=tableName#>Service)
+        {
+            _service = <#=tableName#>Service;
+        }
+
+        [HttpGet]
+        [Description("查询")]
+        public Task<IResultModel> Query([FromQuery]<#=tableName#>QueryModel model)
+        {
+            return _service.Query(model);
+        }
+
+        [HttpPost]
+        [Description("添加")]
+        public Task<IResultModel> Add(<#=tableName#>AddModel model)
+        {
+            return _service.Add(model);
+        }
+
+        [HttpGet]
+        [Description("编辑")]
+        public Task<IResultModel> Edit([BindRequired]string id)
+        {
+            return _service.Edit(id);
+        }
+
+        [HttpPost]
+        [Description("更新")]
+        public Task<IResultModel> Update(<#=tableName#>UpdateModel model)
+        {
+            return _service.Update(model);
+        }
+
+        [HttpDelete]
+        [Description("删除")]
+        public Task<IResultModel> Delete([BindRequired]string id)
+        {
+            return _service.Delete(id);
+        }
+    }
+}
+
+<# 
+   manager.EndBlock();  
+    }
+   manager.Process(true);  
+#>

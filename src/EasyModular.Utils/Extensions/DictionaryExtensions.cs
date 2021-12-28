@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json;
 
 namespace EasyModular.Utils
 {
@@ -72,7 +73,7 @@ namespace EasyModular.Utils
         {
             if (null != obj && obj.Count > 0)
             {
-                return Newtonsoft.Json.JsonConvert.SerializeObject(obj);
+                return JsonSerializer.Serialize(obj);
             }
             return string.Empty;
         }

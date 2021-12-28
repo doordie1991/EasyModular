@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+		<TargetFramework>net6.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
@@ -26,8 +26,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\simple\ModularA\Demo.ModularA.Domain\Demo.ModularA.Domain.csproj" />
-    <ProjectReference Include="..\..\simple\ModularA\Demo.ModularA.Infrastructure\Demo.ModularA.Infrastructure.csproj" />
     <ProjectReference Include="..\..\src\EasyModular.Auth\EasyModular.Auth.csproj" />
     <ProjectReference Include="..\..\src\EasyModular.SqlSugar\EasyModular.SqlSugar.csproj" />
     <ProjectReference Include="..\..\src\EasyModular.Utils\EasyModular.Utils.csproj" />

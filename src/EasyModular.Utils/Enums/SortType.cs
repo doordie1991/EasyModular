@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace EasyModular.Utils.Enums
+namespace EasyModular.Utils
 {
     /// <summary>
     /// 排序规则

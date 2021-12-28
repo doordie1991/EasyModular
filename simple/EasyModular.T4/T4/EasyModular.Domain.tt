@@ -1,0 +1,163 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ assembly name="System.Data"#>
+
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.IO" #> 
+<#@ import namespace="Newtonsoft.Json" #> 
+<#@ import namespace="System.Data" #>
+<#@ import namespace="System.Reflection" #> 
+<#@ import namespace="MySql.Data.MySqlClient" #>
+
+<#@ assembly name="$(ProjectDir)\_Library\MySql.Data.dll" #>
+<#@ assembly name="$(ProjectDir)\_Library\Newtonsoft.Json.dll" #>
+
+<#@ include file="$(ProjectDir)/Model/ConfigModel.ttinclude"#> 
+<#@ include file="$(ProjectDir)/Helper/OutputHelper.ttinclude"#> 
+<#@ include file="$(ProjectDir)/Helper/MySqlDbHelper.ttinclude"#> 
+
+<# var manager = new Manager(Host, GenerationEnvironment, true); #>  
+
+<# 
+   //***********************直接ctrl+s即可以运行**************************
+
+    var solutionDir = Host.ResolveAssemblyReference("$(SolutionDir)"); //当解决方案目录
+    var projectDir = Host.ResolveAssemblyReference("$(ProjectDir)"); //当前项目目录
+
+    var configUrl = Path.Combine(projectDir, "config.json");
+    using var streamReader = new StreamReader(configUrl);
+    var config = JsonConvert.DeserializeObject<ConfigModel>(streamReader.ReadToEnd());
+
+    var projectName=$"{config.Module}.Domain";
+    var projectPath=Path.Combine(solutionDir,config.ProjectPath,projectName);
+    if (!Directory.Exists(projectPath))  
+    {  
+        Directory.CreateDirectory(projectPath);  
+    } 
+  
+    var _db =new MySqlDbHelper(projectDir);
+
+    var tables=_db.GetDbTables(config.Prefix,config.TableName);
+
+    foreach(var table in tables)
+    {
+       var tableName = table.table_name.Substring(config.Prefix.Length - 1).Replace("_", "");;
+
+       var domainDir=Path.Combine(projectPath,tableName); 
+       if(!Directory.Exists(domainDir))
+       {
+          Directory.CreateDirectory(domainDir); 
+       }
+
+       var entityDir=Path.Combine(domainDir,"Entity"); 
+       if(!Directory.Exists(entityDir))
+       {
+          Directory.CreateDirectory(entityDir); 
+       }
+
+//===========================1.生成实体===========================================
+       manager.StartBlock(tableName+"Entity.cs",entityDir);
+       #>
+
+using EasyModular.SqlSugar;
+using SqlSugar;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace <#=projectName#>
+{
+    /// <summary>
+    /// <#=table.table_comment.Replace("表","")#>
+    /// </summary>
+    [SugarTable("<#=table.table_name#>", "<#=table.table_comment.Replace("表","")#>")]
+    public partial class <#=tableName#>Entity : SoftDeleteEntity<string>
+    {
+     <#
+     var columns=_db.GetDbColumns(table.table_name);
+     foreach(var col in columns)
+     {
+      if (config.ExcludeCols.Split(',').Any(m=>m==col.column_name))
+                continue;
+        var colType=_db.ConvertToCsharpType(col.data_type,col.is_nullable,col.character_maximum_length);
+    #>
+    /// <summary>
+        /// <#=col.column_comment#>
+        /// </summary>
+        public <#=colType#> <#=col.column_name#> { get; set; }
+
+    <#
+    }
+    #>
+}
+}
+     <#
+      manager.EndBlock();  
+
+//===========================2.生成模型===========================================
+      var modelDir=Path.Combine(domainDir,"Models"); 
+      if(!Directory.Exists(modelDir))
+       {
+          Directory.CreateDirectory(modelDir); 
+       }
+       manager.StartBlock(tableName+"QueryModel.cs",modelDir);
+     #>
+
+using EasyModular.Utils;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace <#=projectName#>
+{
+    /// <summary>
+    /// <#=table.table_comment#>查询模型
+    /// </summary>
+    public class <#=tableName#>QueryModel : QueryPagingModel
+    {
+           <#
+            foreach(var col in columns)
+            {
+              if (config.ExcludeCols.Split(',').Any(m=>m==col.column_name))
+                continue;
+               var colType=_db.ConvertToCsharpType(col.data_type,col.is_nullable,col.character_maximum_length);
+           #>
+         
+         /// <summary>
+         /// <#=col.column_comment#>
+         /// </summary>
+         public <#=colType#> <#=col.column_name#> { get; set; }
+    <#}#>}
+}
+    <#
+      manager.EndBlock();  
+
+//===========================3.生成仓储接口===========================================
+   var repositoryDir=Path.Combine(domainDir,"IRepository"); 
+   if(!Directory.Exists(repositoryDir))
+   {
+      Directory.CreateDirectory(repositoryDir); 
+   }
+     manager.StartBlock("I"+tableName+"Repository.cs",repositoryDir);
+     #> 
+using EasyModular.SqlSugar;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace <#=projectName#>
+{
+    public interface I<#=tableName#>Repository : IRepository<<#=tableName#>Entity>
+    {
+        Task<IList<<#=tableName#>Entity>> Query(<#=tableName#>QueryModel model);
+    }
+}
+ <#
+  manager.EndBlock();  
+   }
+     manager.Process(true);  
+#>  
+
+

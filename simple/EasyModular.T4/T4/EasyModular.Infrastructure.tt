@@ -1,0 +1,116 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ assembly name="System.Data"#>
+
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.IO" #> 
+<#@ import namespace="Newtonsoft.Json" #> 
+<#@ import namespace="System.Data" #>
+<#@ import namespace="System.Reflection" #> 
+<#@ import namespace="MySql.Data.MySqlClient" #>
+
+<#@ assembly name="$(ProjectDir)\_Library\MySql.Data.dll" #>
+<#@ assembly name="$(ProjectDir)\_Library\Newtonsoft.Json.dll" #>
+
+<#@ include file="$(ProjectDir)/Model/ConfigModel.ttinclude"#> 
+<#@ include file="$(ProjectDir)/Helper/OutputHelper.ttinclude"#> 
+<#@ include file="$(ProjectDir)/Helper/MySqlDbHelper.ttinclude"#> 
+
+<# var manager = new Manager(Host, GenerationEnvironment, true); #>  
+
+<# 
+    //***********************直接ctrl+s即可以运行**************************
+
+    var solutionDir = Host.ResolveAssemblyReference("$(SolutionDir)"); //当解决方案目录
+    var projectDir = Host.ResolveAssemblyReference("$(ProjectDir)"); //当前项目目录
+
+    var configUrl = Path.Combine(projectDir, "config.json");
+    using var streamReader = new StreamReader(configUrl);
+    var config = JsonConvert.DeserializeObject<ConfigModel>(streamReader.ReadToEnd());
+
+    var projectName=$"{config.Module}.Infrastructure";
+    var projectPath=Path.Combine(solutionDir,config.ProjectPath,projectName);
+    if (!Directory.Exists(projectPath))  
+    {  
+        Directory.CreateDirectory(projectPath);  
+    } 
+
+    var repositoriesDir=Path.Combine(projectPath,"Repositories");
+    if (!Directory.Exists(repositoriesDir))  
+    {  
+        Directory.CreateDirectory(repositoriesDir);  
+    } 
+  
+    var _db =new MySqlDbHelper(projectDir);
+
+    var tables=_db.GetDbTables(config.Prefix,config.TableName);
+    foreach(var table in tables)
+    {
+       var tableName = table.table_name.Substring(config.Prefix.Length - 1).Replace("_", "");
+       var repositoriesPath=Path.Combine(repositoriesDir,tableName); 
+       if(!Directory.Exists(repositoriesPath))
+       {
+          Directory.CreateDirectory(repositoriesPath); 
+       }
+
+//===========================1.生成仓储实现类===========================================
+       manager.StartBlock(tableName+"Repository.cs",repositoriesPath);
+       #> 
+using EasyModular.SqlSugar;
+using <#=config.Module#>.Domain;
+using SqlSugar;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace <#=projectName#>
+{
+    public class <#=tableName#>Repository : RepositoryBase<<#=tableName#>Entity>, I<#=tableName#>Repository
+    {
+        public <#=tableName#>Repository(IDbContext context, IQueryFilter filter) : base(context, filter)
+        {
+
+        }
+
+        public async Task<IList<<#=tableName#>Entity>> Query(<#=tableName#>QueryModel model)
+        {
+            var query = _dbContext.Db.Queryable<<#=tableName#>Entity>().Where(m => m.IsDel == false);
+
+            if (!string.IsNullOrEmpty(model.OrderFileds))
+                query.OrderBy(model.OrderFileds);
+
+            RefAsync<int> totalCount = 0;
+            var data = await query.ToPageListAsync(model.PageIndex, model.PageSize, totalCount);
+            model.TotalCount = totalCount;
+
+            return data;
+        }
+    }
+}
+<# 
+   manager.EndBlock();  
+    }
+//===========================2.生成DbContext===========================================
+   manager.StartBlock("DbContext.cs",repositoriesDir);
+       #> 
+using EasyModular.SqlSugar;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace <#=projectName#>
+{
+    public class DbContext : DbContextBase
+    {
+        public DbContext(ModuleDbOption options) : base(options)
+        {
+
+        }
+    }
+}
+ <#
+  manager.EndBlock();  
+   manager.Process(true);  
+#>

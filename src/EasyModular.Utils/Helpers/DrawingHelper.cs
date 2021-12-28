@@ -11,14 +11,7 @@ namespace EasyModular.Utils
     public class DrawingHelper
     {
         //颜色列表，用于验证码、噪线、噪点 
-        private readonly Color[] _colors = new[] { Color.Black, Color.Red, Color.Blue, Color.Green, Color.Orange, Color.Brown, Color.Brown, Color.DarkBlue };
-
-        private readonly StringHelper _stringHelper;
-
-        public DrawingHelper(StringHelper stringHelper)
-        {
-            _stringHelper = stringHelper;
-        }
+        private static Color[] _colors = new[] { Color.Black, Color.Red, Color.Blue, Color.Green, Color.Orange, Color.Brown, Color.Brown, Color.DarkBlue };
 
         /// <summary>
         /// 绘制验证码图片，返回图片的字节数组
@@ -26,9 +19,9 @@ namespace EasyModular.Utils
         /// <param name="code"></param>
         /// <param name="length">验证码长度</param>
         /// <returns></returns>
-        public byte[] DrawVerifyCode(out string code, int length = 6)
+        public static byte[] DrawVerifyCode(out string code, int length = 6)
         {
-            code = _stringHelper.GenerateRandomNumber(length);
+            code = StringHelper.GenerateRandomNumber(length);
             //创建画布
             var bmp = new Bitmap(4 + 16 * code.Length, 40);
             //字体
@@ -78,7 +71,7 @@ namespace EasyModular.Utils
         /// <param name="code"></param>
         /// <param name="length">验证码长度</param>
         /// <returns></returns>
-        public string DrawVerifyCodeBase64String(out string code, int length = 6)
+        public static string DrawVerifyCodeBase64String(out string code, int length = 6)
         {
             var bytes = DrawVerifyCode(out code, length);
 

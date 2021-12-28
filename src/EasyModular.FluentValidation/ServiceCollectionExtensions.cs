@@ -29,9 +29,9 @@ namespace EasyModular.FluentValidation
                 {
                     if (module.AssemblyDescriptor != null && module.AssemblyDescriptor is ModuleAssemblyDescriptor descriptor)
                     {
-                        if (descriptor.Api != null)
+                        if (descriptor.Web != null)
                         {
-                            fv.RegisterValidatorsFromAssembly(descriptor.Api);
+                            fv.RegisterValidatorsFromAssembly(descriptor.Web);
                         }
                     }
                 }

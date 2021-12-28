@@ -1,6 +1,6 @@
-﻿using Demo.ModularA.Infrastructure.Repositories;
+﻿//using Demo.ModularA.Infrastructure.Repositories;
 using EasyModular.Auth;
-using EasyModular.Utils.Helpers;
+using EasyModular.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -18,9 +18,9 @@ namespace EasyModular.SqlSugar.Test
         {
             var dbOptions = ConfigHelper.GetModel<DbOptions>(Path.Combine(AppContext.BaseDirectory, "config/db.json"));
 
-            IDbContext _DbContext = new DbContext(dbOptions);
+            //IDbContext _DbContext = new DbContext(dbOptions);
 
-            var db = _DbContext.Db;
+            //var db = _dbContext.Db;
         }
     }
 }

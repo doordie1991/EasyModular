@@ -1,0 +1,27 @@
+[
+  {
+    "ModuleId": "Demo.Admin",
+    "DbType": 0, //0:MySql,1:SqlServer,2:Sqlite,3:Oracle,4:PostgreSQL
+    "ConnectionString": "server=localhost;user id=edcp;password=edcp@tongyu_2021;database=EDCP;",
+    "IsPintLog": true
+  },
+  {
+    "ModuleId": "Demo.Hierarchy",
+    "DbType": 0, //0:MySql,1:SqlServer,2:Sqlite,3:Oracle,4:PostgreSQL
+    "ConnectionString": "server=localhost;user id=edcp; password=edcp@tongyu_2021; database=EDCP;",
+    "IsPintLog": true
+  },
+  {
+    "ModuleId": "Demo.Risk",
+    "DbType": 0, //0:MySql,1:SqlServer,2:Sqlite,3:Oracle,4:PostgreSQL
+    "ConnectionString": "server=localhost;user id=edcp; password=edcp@tongyu_2021; database=EDCP;",
+    "IsPintLog": true
+  },
+  {
+    "ModuleId": "Demo.Trouble",
+    "DbType": 0, //0:MySql,1:SqlServer,2:Sqlite,3:Oracle,4:PostgreSQL
+    "ConnectionString": "server=localhost;user id=edcp; password=edcp@tongyu_2021; database=EDCP;",
+    "IsPintLog": true
+  }
+
+]

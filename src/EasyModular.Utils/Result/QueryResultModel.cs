@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace EasyModular.Utils
 {
@@ -24,7 +24,7 @@ namespace EasyModular.Utils
         /// <summary>
         /// 其他数据
         /// </summary>
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [JsonIgnore]
         public object Data { get; set; }
     }
 }

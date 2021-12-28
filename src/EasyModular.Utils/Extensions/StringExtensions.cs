@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 
 // ReSharper disable once CheckNamespace
 namespace EasyModular.Utils
@@ -89,6 +91,30 @@ namespace EasyModular.Utils
 
             var bytes = encoding.GetBytes(s);
             return bytes.ToBase64();
+        }
+
+        public static T ToEntity<T>(this string val)
+        {
+            return JsonSerializer.Deserialize<T>(val, new JsonSerializerOptions
+            {
+                ReadCommentHandling = JsonCommentHandling.Skip,
+                AllowTrailingCommas = true
+            });
+        }
+
+        public static List<T> ToList<T>(this string val)
+        {
+            return JsonSerializer.Deserialize<List<T>>(val, new JsonSerializerOptions
+            {
+                ReadCommentHandling = JsonCommentHandling.Skip,
+                AllowTrailingCommas = true
+            });
+        }
+
+        public static string ObjToString(this object thisValue)
+        {
+            if (thisValue != null) return thisValue.ToString().Trim();
+            return "";
         }
     }
 }

@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\src\EasyModular.SqlSugar\EasyModular.SqlSugar.csproj" />
+		<ProjectReference Include="..\..\..\src\EasyModular.Utils\EasyModular.Utils.csproj" />
+	</ItemGroup>
+
+</Project>

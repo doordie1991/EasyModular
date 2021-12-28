@@ -1,10 +1,10 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Text.Json;
 
-namespace EasyModular.Utils.Helpers
+namespace EasyModular.Utils
 {
     /// <summary>
     /// 配置帮助类
@@ -20,7 +20,9 @@ namespace EasyModular.Utils.Helpers
         public static T GetModel<T>(string url)
         {
             using var jsonReader = new StreamReader(url);
-            var model = JsonConvert.DeserializeObject<T>(jsonReader.ReadToEnd());
+
+            var model = JsonHelper.JsonToEntity<T>(jsonReader.ReadToEnd());
+
             return model;
         }
 
@@ -33,7 +35,9 @@ namespace EasyModular.Utils.Helpers
         public static List<T> GetModels<T>(string url)
         {
             using var jsonReader = new StreamReader(url);
-            var models = JsonConvert.DeserializeObject<List<T>>(jsonReader.ReadToEnd());
+
+            var models = JsonHelper.JonsToList<T>(jsonReader.ReadToEnd());
+
             return models;
         }
     }

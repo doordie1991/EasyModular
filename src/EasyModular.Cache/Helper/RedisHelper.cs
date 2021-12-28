@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using EasyModular.Utils;
 using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
@@ -14,11 +14,11 @@ namespace EasyModular.Cache
         private readonly string _prefix;
         public IDatabase Db;
 
-        public RedisHelper(RedisOptions options)
+        public RedisHelper(string prefix,string connectionString)
         {
-            _prefix = options.Prefix ?? string.Empty;
+            _prefix = prefix;
 
-            _redis = ConnectionMultiplexer.Connect(options.ConnectionString);
+            _redis = ConnectionMultiplexer.Connect(connectionString);
             Db = _redis.GetDatabase();
         }
 
@@ -468,7 +468,7 @@ namespace EasyModular.Cache
         {
             if (IsNotBaseType<T>())
             {
-                return JsonConvert.SerializeObject(value);
+                return value.ToJson();
             }
 
             return value.ToString();
@@ -481,7 +481,7 @@ namespace EasyModular.Cache
         {
             if (IsNotBaseType<T>())
             {
-                return JsonConvert.DeserializeObject<T>(value);
+                return JsonHelper.JsonToEntity<T>(value);
             }
             
             return (T)Convert.ChangeType(value, typeof(T));

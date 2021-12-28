@@ -1,0 +1,175 @@
+﻿
+<#@ include file="$(ProjectDir)/Model/TableModel.ttinclude"#> 
+<#@ include file="$(ProjectDir)/Model/ColumnModel.ttinclude"#> 
+<#+
+    /// <summary>
+    /// MySql数据库访问辅助类
+    /// </summary>
+    public class MySqlDbHelper
+    {
+        private string _dbName = "";
+        public  string _ConnStr = "";
+
+        public MySqlDbHelper(string projectDir)
+        {
+           var url = Path.Combine(projectDir, "config.json");
+           using var streamReader = new StreamReader(url);
+           var config = JsonConvert.DeserializeObject<ConfigModel>(streamReader.ReadToEnd());
+
+           _ConnStr= config.ConnectionString;
+           _dbName = config.DbName;
+        }
+
+        /// <summary>
+        /// 获取表信息
+        /// </summary>
+        /// <param name="prefix">前缀</param>
+        /// <param name="tbName">表名</param>
+        /// <returns></returns>
+        public List<TableModel> GetDbTables(string prefix = "", string tbName = "")
+        {
+           
+            var strSql = $"SELECT table_name,table_comment FROM information_schema.TABLES WHERE table_schema = '{_dbName}'";
+
+            if (!string.IsNullOrEmpty(prefix))
+                strSql += $" and table_name like '{prefix}%'";
+
+            if (!string.IsNullOrEmpty(tbName))
+                strSql += $" and table_name like '{tbName}'";
+
+            return SqlQuery<TableModel>(strSql);
+        }
+
+        /// <summary>
+        /// 获取列信息
+        /// </summary>
+        /// <param name="tbName">表名</param>
+        /// <returns></returns>
+        public List<ColumnModel> GetDbColumns(string tbName)
+        {
+            var strSql = $"SELECT column_name, column_type, column_comment, data_type,is_nullable,cast(character_maximum_length as char) character_maximum_length FROM information_schema.COLUMNS WHERE table_name = '{tbName}' AND table_schema = '{_dbName}' ORDER BY ordinal_position ASC";
+
+            return SqlQuery<ColumnModel>(strSql);
+        }
+
+        /// <summary>
+        /// 数据库类型转换为C#类型
+        /// </summary>
+        /// <param name="dbtype"></param>
+        /// <param name="is_nullable"> 是否可空（YES或NO）</param>
+        /// <param name="character_maximum_length">字段大小</param>
+        /// <returns></returns>
+        public string ConvertToCsharpType(string dbtype, string is_nullable,string character_maximum_length)
+        {
+            if (string.IsNullOrEmpty(dbtype))
+                return dbtype;
+
+            dbtype = dbtype.ToLower();
+            var csharpType = "object";
+
+            switch (dbtype)
+            {
+                case "bigint": csharpType = "long"; break;
+                case "binary": csharpType = "byte[]"; break;
+                case "bit": csharpType = "bool"; break;
+                case "char":
+                if(character_maximum_length=="36")
+                  csharpType = "Guid";
+                else
+                csharpType = "string";
+                break;
+
+                case "date": csharpType = "DateTime"; break;
+                case "datetime": csharpType = "DateTime"; break;
+                case "datetime2": csharpType = "DateTime"; break;
+                case "datetimeoffset": csharpType = "DateTimeOffset"; break;
+                case "decimal": csharpType = "decimal"; break;
+                case "float": csharpType = "double"; break;
+                case "double": csharpType = "double"; break;
+                case "image": csharpType = "byte[]"; break;
+                case "int": csharpType = "int"; break;
+                case "money": csharpType = "decimal"; break;
+                case "nchar": csharpType = "string"; break;
+                case "ntext": csharpType = "string"; break;
+                case "numeric": csharpType = "decimal"; break;
+                case "nvarchar": csharpType = "string"; break;
+                case "real": csharpType = "Single"; break;
+                case "smalldatetime": csharpType = "DateTime"; break;
+                case "smallint": csharpType = "short"; break;
+                case "smallmoney": csharpType = "decimal"; break;
+                case "sql_variant": csharpType = "object"; break;
+                case "sysname": csharpType = "object"; break;
+                case "text": csharpType = "string"; break;
+                case "time": csharpType = "TimeSpan"; break;
+                case "timestamp": csharpType = "byte[]"; break;
+                case "tinyint": csharpType = "byte"; break;
+                case "uniqueidentifier": csharpType = "Guid"; break;
+                case "varbinary": csharpType = "byte[]"; break;
+                case "varchar": csharpType = "string"; break;
+                case "xml": csharpType = "string"; break;
+                default: csharpType = "object"; break;
+            }
+
+            if(is_nullable=="YES"&&csharpType!="string"&&csharpType!="object")
+            {
+                csharpType=csharpType+"?";
+            }
+
+            return csharpType;
+        }
+        
+        /// <summary>
+        /// 查询
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <returns></returns>
+
+        public List<T> SqlQuery<T>(string sql, params MySqlParameter[] paras) where T : new()
+        {
+            using (MySqlConnection con = new MySqlConnection(_ConnStr))
+            {
+                MySqlDataAdapter sqlda = new MySqlDataAdapter(sql, con);
+                sqlda.SelectCommand.Parameters.AddRange(paras);
+                DataTable dt = new DataTable();
+                sqlda.Fill(dt);
+                return DataTableToList<T>(dt);
+            }
+        }
+
+        /// <summary>
+        /// 利用反射将Datatable转换为List<T>对象
+        /// </summary>
+        /// <typeparam name="T">集合</typeparam>
+        /// <param name="dt"> datatable对象</param>
+        /// <returns></returns>
+        public List<T> DataTableToList<T>(DataTable dt) where T : new()
+        {
+            //定义集合
+            List<T> ts = new List<T>();
+
+            //遍历dataTable中的数据行
+            foreach (DataRow dr in dt.Rows)
+            {
+                T t = new T();
+                //获得此模型的公共属性
+                PropertyInfo[] propertys = t.GetType().GetProperties();
+
+                //遍历该对象的所有属性
+                foreach (PropertyInfo pi in propertys)
+                {
+
+                    string tempName = pi.Name;
+
+                    if (!dt.Columns.Contains(tempName)) continue;   //检查datatable是否包含此列(列名==对象的属性名)    
+                    object value = dr[tempName];      //取值
+                    if (value == DBNull.Value) continue;  //如果非空，则赋给对象的属性
+                    pi.SetValue(t, value, null);
+                }
+                //对象添加到泛型集合中
+                ts.Add(t);
+            }
+            return ts;
+
+        }
+    }
+#>

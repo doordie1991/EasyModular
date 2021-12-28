@@ -25,19 +25,49 @@ namespace EasyModular.Auth
         public const string UserName = "un";
 
         /// <summary>
+        /// 组织Id
+        /// </summary>
+        public const string OrganizeId = "oi";
+
+        /// <summary>
+        /// 租户Id
+        /// </summary>
+        public const string TenantId = "teid";
+
+        /// <summary>
+        /// 租户名称
+        /// </summary>
+        public const string TenantName = "tena";
+
+        /// <summary>
+        /// 租户类别
+        /// </summary>
+        public const string TenantType = "tepe";
+
+        /// <summary>
+        /// 行业
+        /// </summary>
+        public const string Trade = "tr";
+
+        /// <summary>
+        /// 用户角Id
+        /// </summary>
+        public const string RoleIds = "ris";
+
+        /// <summary>
+        /// 用户角色编码
+        /// </summary>
+        public const string RoleCodes = "rcs";
+
+        /// <summary>
+        /// 用户角色名称
+        /// </summary>
+        public const string RoleNames = "rns";
+
+        /// <summary>
         /// 登录时间
         /// </summary>
         public const string LoginTime = "lt";
-
-        /// <summary>
-        /// 组织编号
-        /// </summary>
-        public const string OrganizeCode = "oc";
-
-        /// <summary>
-        /// 组织名称
-        /// </summary>
-        public const string OrganizeName = "on";
 
     }
 }

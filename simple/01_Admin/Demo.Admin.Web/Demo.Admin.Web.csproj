@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	  <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Controllers\AuthController.cs~RF1a32a07c.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\EasyModular.Auth\EasyModular.Auth.csproj" />
+    <ProjectReference Include="..\..\..\src\EasyModular\EasyModular.csproj" />
+    <ProjectReference Include="..\Demo.Admin.Application\Demo.Admin.Application.csproj" />
+    <ProjectReference Include="..\Demo.Admin.Domain\Demo.Admin.Domain.csproj" />
+    <ProjectReference Include="..\Demo.Admin.Infrastructure\Demo.Admin.Infrastructure.csproj" />
+    <ProjectReference Include="..\Demo.Admin.Quartz\Demo.Admin.Quartz.csproj" />
+  </ItemGroup>
+
+</Project>

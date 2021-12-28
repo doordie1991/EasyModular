@@ -8,7 +8,6 @@ namespace EasyModular.Swagger
 {
     public static class ServiceCollectionExtensions
     {
-
         /// <summary>
         /// 添加Swagger
         /// </summary>

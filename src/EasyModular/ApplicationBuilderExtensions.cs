@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using System.Linq;
 
 namespace EasyModular
 {
@@ -17,6 +18,24 @@ namespace EasyModular
                 //加载模块初始化器
                 ((ModuleDescriptor)module).Initializer?.Configure(app, env);
             }
+
+            return app;
+        }
+
+        /// <summary>
+        /// 启用应用停止处理
+        /// </summary>
+        /// <returns></returns>
+        public static IApplicationBuilder UseEasyModularShutdownHandler(this IApplicationBuilder app)
+        {
+            var lifeTime = app.ApplicationServices.GetRequiredService<IHostApplicationLifetime>();
+
+            lifeTime.ApplicationStopping.Register(() =>
+            {
+                var handlers = app.ApplicationServices.GetServices<IAppShutdownHandler>().ToList();
+                foreach (var handler in handlers)
+                    handler.Handle();
+            });
 
             return app;
         }

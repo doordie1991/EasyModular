@@ -1,11 +1,14 @@
 ﻿using EasyModular.Auth;
-using EasyModular.Utils.Helpers;
+using EasyModular.Utils;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using SqlSugar;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 using System.Text;
 
 namespace EasyModular.SqlSugar
@@ -18,7 +21,7 @@ namespace EasyModular.SqlSugar
         /// <param name="services"></param>
         public static IServiceCollection AddEasyModularSqlSugar(this IServiceCollection services)
         {
-            var dbOptions = ConfigHelper.GetModels<DbOptions>(Path.Combine(AppContext.BaseDirectory, "config/db.json"));
+            var dbOptions = ConfigHelper.GetModel<DbOptions>(Path.Combine(AppContext.BaseDirectory, "config/db.json"));
 
             if (dbOptions == null)
                 return services;
@@ -28,20 +31,37 @@ namespace EasyModular.SqlSugar
             var sp = services.BuildServiceProvider();
             var modules = sp.GetService<IList<IModuleDescriptor>>();
             var loginInfo = sp.GetService<ILoginInfo>();
+            IQueryFilter filter = null;
 
             foreach (var module in modules)
             {
+
                 if (module.AssemblyDescriptor.Domain == null)
                     continue;
 
-                var dbOption = dbOptions.Where(m => m.ModuleId == module.Id).FirstOrDefault();
-                var dbContextType = module.AssemblyDescriptor.Infrastructure.GetTypes().FirstOrDefault(m => m.Name.Equals("DbContext"));
+                var moduleDbOpt = dbOptions.Modules.Where(m => m.ModuleId == module.Id).FirstOrDefault();
+                if (string.IsNullOrEmpty(moduleDbOpt.ConnectionString))
+                {
+                    moduleDbOpt.ConnectionString = dbOptions.ConnectionString;
+                    moduleDbOpt.DbType = dbOptions.DbType;
+                    moduleDbOpt.IsPintLog = dbOptions.IsPintLog;
+                }
 
-                var dbContext = (IDbContext)Activator.CreateInstance(dbContextType, dbOption);
+                if (string.IsNullOrEmpty(moduleDbOpt.UserKey))
+                    moduleDbOpt.UserKey = dbOptions.UserKey;
+
+                var dbContextType = module.AssemblyDescriptor.Infrastructure.GetTypes().FirstOrDefault(m => m.Name.Equals("DbContext"));
+                var filterType = module.AssemblyDescriptor.Infrastructure.GetTypes().FirstOrDefault(m => m.Name.Equals("QueryFilter"));
+
+                var dbContext = Activator.CreateInstance(dbContextType, moduleDbOpt) as IDbContext;
                 dbContext.LoginInfo = loginInfo;
 
+                if (filterType != null)
+                    filter = Activator.CreateInstance(filterType, loginInfo, dbContext) as IQueryFilter;
+
                 services.AddSingleton(dbContextType, dbContext);
-                services.AddRepositories(module, dbContext);
+                services.AddRepositories(module, dbContext, filter);
+
             }
 
             return services;
@@ -50,7 +70,7 @@ namespace EasyModular.SqlSugar
         /// <summary>
         /// 添加仓储
         /// </summary>
-        private static void AddRepositories(this IServiceCollection services, IModuleDescriptor module, IDbContext dbContext)
+        private static void AddRepositories(this IServiceCollection services, IModuleDescriptor module, IDbContext dbContext, IQueryFilter filter)
         {
             var interfaceList = module.AssemblyDescriptor.Domain.GetTypes().Where(t => t.FullName != null && t.IsInterface && t.FullName.EndsWith("Repository", StringComparison.OrdinalIgnoreCase)).ToList();
 
@@ -60,11 +80,15 @@ namespace EasyModular.SqlSugar
             foreach (var repositoryType in interfaceList)
             {
                 var implementType = module.AssemblyDescriptor.Infrastructure.GetTypes().FirstOrDefault(m => m.FullName != null && m.IsClass && m.FullName.EndsWith("Repository", StringComparison.OrdinalIgnoreCase) && repositoryType.IsAssignableFrom(m));
-                if (implementType != null)
-                {
+                if (implementType == null)
+                    continue;
+
+                if (filter != null)
+                    services.AddSingleton(repositoryType, Activator.CreateInstance(implementType, dbContext, filter));
+                else
                     services.AddSingleton(repositoryType, Activator.CreateInstance(implementType, dbContext));
-                }
             }
         }
+
     }
 }

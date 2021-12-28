@@ -1,0 +1,9 @@
+{
+  "Module": "Demo.Admin", //模块
+  "DbName": "EDCP", //数据库名称
+  "Prefix": "Sys_", //表前缀
+  "TableName": "Sys_Modules", //表名
+  "ProjectPath": "simple/01_Admin", //项目路径
+  "ConnectionString": "server=localhost;user id=root; password=cwh82813788; database=EDCP;", //数据库连接串
+  "ExcludeCols": "Id,Creater,CreaterName,CreatedTime,Modifier,ModifierName,ModifiedTime,IsDel,Deleter,DeleterName,DeletedTime" //排除的字段
+}

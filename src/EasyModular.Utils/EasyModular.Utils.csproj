@@ -1,16 +1,24 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <LangVersion>preview</LangVersion>
-    <Authors>陈曦</Authors>
-    <Company>DOORDIE</Company>
-    <Description>EasyModular工具类库</Description>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<LangVersion>preview</LangVersion>
+		<Authors>陈曦</Authors>
+		<Company>DOORDIE</Company>
+		<Description>EasyModular工具类库</Description>
+		<Version>1.0.3</Version>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="System.Drawing.Common" Version="5.0.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<Content Remove="C:\Users\Administrator\.nuget\packages\dotnetcore.npoi\1.2.3\contentFiles\any\netstandard2.0\NOTICE.TXT" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="DotNetCore.NPOI" Version="1.2.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
+		<PackageReference Include="System.Drawing.Common" Version="5.0.0" />
+		<PackageReference Include="System.Text.Json" Version="5.0.2" />
+	</ItemGroup>
 
 </Project>

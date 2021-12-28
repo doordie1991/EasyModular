@@ -1,0 +1,18 @@
+﻿[
+  {
+    "Id": "Demo.Admin",
+    "Name": "权限管理",
+    "Icon": "redis",
+    "Version": "1.0.0",
+    "Description": "用户管理、角色管理、功能权限、数据权限",
+    "Sort": 1
+  },
+  {
+    "Id": "Demo.Scheduling",
+    "Name": "任务调度",
+    "Icon": "timer",
+    "Version": "1.0.0",
+    "Description": "任务分组、任务管理",
+    "Sort": 2
+  }
+]

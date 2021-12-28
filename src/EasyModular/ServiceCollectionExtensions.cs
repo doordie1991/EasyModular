@@ -2,8 +2,10 @@
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 
 namespace EasyModular
 {
@@ -16,6 +18,14 @@ namespace EasyModular
         /// <returns></returns>
         public static IList<IModuleDescriptor> AddEasyModules(this IServiceCollection services)
         {
+            using var jsonReader = new StreamReader(Path.Combine(AppContext.BaseDirectory, "config/web.json"));
+            var webConfig = JsonSerializer.Deserialize<WebConfigModel>(jsonReader.ReadToEnd(), new JsonSerializerOptions
+            {
+                ReadCommentHandling = JsonCommentHandling.Skip,
+                AllowTrailingCommas = true
+            });
+            services.AddSingleton(webConfig);
+
             IModuleHandler moduleHandler = new ModuleHandler();
             var modules = moduleHandler.LoadModules();
 
@@ -24,7 +34,7 @@ namespace EasyModular
             services.InitializeModule(modules);
 
             services.AddModuleApplicationServices(modules);
-        
+
             return modules;
         }
 
@@ -36,7 +46,7 @@ namespace EasyModular
 
             foreach (var module in modules)
             {
-                //加载模块初始化器
+                //注入各模块服务
                 ((ModuleDescriptor)module).Initializer?.ConfigureServices(services);
 
                 //模块中的MVC配置
@@ -44,7 +54,7 @@ namespace EasyModular
                 {
                     ((ModuleDescriptor)module).Initializer?.ConfigureMvc(c);
                 })
-                .AddApplicationPart(module.AssemblyDescriptor.Api);
+                .AddApplicationPart(module.AssemblyDescriptor.Web);
             }
         }
 
@@ -53,7 +63,6 @@ namespace EasyModular
         /// </summary>
         private static void AddModuleApplicationServices(this IServiceCollection services, IList<IModuleDescriptor> modules)
         {
-
             foreach (var module in modules)
             {
                 if (module.AssemblyDescriptor == null || module.AssemblyDescriptor.Application == null)

@@ -1,0 +1,44 @@
+
+<#+
+    /// <summary>
+    /// 配置模型
+    /// </summary>
+    public class ConfigModel
+    {
+        /// <summary>
+        /// 模块
+        /// </summary>
+        public string Module { get; set; }
+
+        /// <summary>
+        /// 数据库名称
+        /// </summary>
+        public string DbName { get; set; }
+
+        /// <summary>
+        /// 表前缀
+        /// </summary>
+        public string Prefix { get; set; }
+
+        /// <summary>
+        /// 表名
+        /// </summary>
+        public string TableName { get; set; }
+
+        /// <summary>
+        /// 项目路径
+        /// </summary>
+        public string ProjectPath { get; set; }
+
+        /// <summary>
+        /// 数据库连接字符串
+        /// </summary>
+        public string ConnectionString { get; set; }
+
+        /// <summary>
+        /// 查询模型、新增模型排除的字段
+        /// </summary>
+        public string ExcludeCols { get; set; }
+    }
+
+#>

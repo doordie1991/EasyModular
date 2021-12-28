@@ -1,4 +1,4 @@
-﻿using EasyModular.Utils.Helpers;
+﻿using EasyModular.Utils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,12 +20,9 @@ namespace EasyModular.Jwt
         /// <param name="services"></param>
         public static IServiceCollection AddEasyModularJwt(this IServiceCollection services)
         {
-            var jwtOptions = ConfigHelper.GetModel<JwtOptions>(Path.Combine(AppContext.BaseDirectory, "config/jwt.json"));
+            var sp = services.BuildServiceProvider();
+            var webCofing = sp.GetService<WebConfigModel>();
 
-            if (jwtOptions == null)
-                return services;
-
-            services.AddSingleton(jwtOptions);
             services.TryAddSingleton<IJwtHandler, JwtHandler>();
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -38,9 +35,9 @@ namespace EasyModular.Jwt
                         ValidateAudience = true,
                         ValidateLifetime = true,
                         ValidateIssuerSigningKey = true,
-                        ValidIssuer = jwtOptions.Issuer,
-                        ValidAudience = jwtOptions.Audience,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.Key)),
+                        ValidIssuer = webCofing.Jwt.Issuer,
+                        ValidAudience = webCofing.Jwt.Audience,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(webCofing.Jwt.Key)),
                         ClockSkew = TimeSpan.Zero,
                     };
                 });

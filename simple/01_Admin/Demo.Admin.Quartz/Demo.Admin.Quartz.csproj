@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	  <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\EasyModular.Quartz\EasyModular.Quartz.csproj" />
+    <ProjectReference Include="..\Demo.Admin.Application\Demo.Admin.Application.csproj" />
+  </ItemGroup>
+
+</Project>

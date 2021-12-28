@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<Version>1.0.0</Version>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Quartz" Version="3.0.7" />
+		<PackageReference Include="Quartz.Serialization.Json" Version="3.0.7" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\EasyModular.Utils\EasyModular.Utils.csproj" />
+		<ProjectReference Include="..\EasyModular\EasyModular.csproj" />
+	</ItemGroup>
+
+</Project>

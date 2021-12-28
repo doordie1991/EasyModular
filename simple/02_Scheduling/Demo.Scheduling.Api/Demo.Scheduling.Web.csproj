@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\src\EasyModular.Auth\EasyModular.Auth.csproj" />
+		<ProjectReference Include="..\..\..\src\EasyModular\EasyModular.csproj" />
+		<ProjectReference Include="..\Demo.Scheduling.Application\Demo.Scheduling.Application.csproj" />
+		<ProjectReference Include="..\Demo.Scheduling.Domain\Demo.Scheduling.Domain.csproj" />
+		<ProjectReference Include="..\Demo.Scheduling.Infrastructure\Demo.Scheduling.Infrastructure.csproj" />
+	</ItemGroup>
+
+</Project>

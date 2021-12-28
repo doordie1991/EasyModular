@@ -27,7 +27,9 @@ namespace EasyModular.Utils
         /// <summary>
         /// 排序字段(如：Id Asc)
         /// </summary>
-        public string OrderFileds { get; set; }
+        public string OrderFileds { get; set; } = "CreatedTime Desc";
+
+
     }
 
 }
