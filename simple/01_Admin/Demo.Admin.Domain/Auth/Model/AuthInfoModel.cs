@@ -146,7 +146,7 @@ namespace Demo.Admin.Domain
         /// <summary>
         /// 链接菜单打开方式
         /// </summary>
-        public string Target { get; set; }
+        public short Target { get; set; }
 
         /// <summary>
         /// 等级

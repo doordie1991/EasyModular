@@ -15,7 +15,7 @@ namespace Demo.Admin.Application.AuditService
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.MenuName))
                 .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.MenuType))
                 .ForMember(dest => dest.Show, opt => opt.MapFrom(src => src.IsShow))
-                .ForMember(dest => dest.Target, opt => opt.MapFrom(src => src.MenuTarget));
+                .ForMember(dest => dest.Target, opt => opt.MapFrom(src => (short)src.MenuTarget));
         }
     }
 }
