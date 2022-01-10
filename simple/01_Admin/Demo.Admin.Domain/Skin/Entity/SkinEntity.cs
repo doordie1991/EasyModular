@@ -13,15 +13,20 @@ namespace Demo.Admin.Domain
     [SugarTable("Sys_Skin", "系统皮肤")]
     public partial class SkinEntity : SoftDeleteEntity<string>
     {
-         /// <summary>
+        /// <summary>
         /// 用户Id
         /// </summary>
         public string UserId { get; set; }
 
         /// <summary>
-        /// 主题
+        /// 主题模式
         /// </summary>
-        public string Theme { get; set; }
+        public string ThemeMode { get; set; }
+
+        /// <summary>
+        /// 主题颜色
+        /// </summary>
+        public string ThemeColor { get; set; }
 
         /// <summary>
         /// 字号
@@ -37,11 +42,6 @@ namespace Demo.Admin.Domain
         /// 是否只保持一个子菜单的展开
         /// </summary>
         public bool? UniqueOpened { get; set; }
-
-        /// <summary>
-        /// 租户Id
-        /// </summary>
-        public string TenantId { get; set; }
 
     }
 }

@@ -20,13 +20,6 @@ namespace Demo.Admin.Infrastructure
         {
             var conditions = await _filter.GetConditions<LoginLogEntity, LoginLogQueryModel>(model);
             var query = _dbContext.Db.Queryable<LoginLogEntity>()
-                                     .LeftJoin<TenantEntity>((x, y) => x.TenantId == y.Id && y.IsDel == false)
-                                     .Select((x, y) => new LoginLogEntity()
-                                     {
-                                         Id = x.Id.SelectAll(),
-                                         TenantName = y.TenantName
-                                     })
-                                     .MergeTable()
                                      .Where(conditions)
                                      .OrderBy(model.OrderFileds);
 

@@ -14,11 +14,6 @@ namespace Demo.Admin.Domain
     public partial class MenuEntity : SoftDeleteEntity<string>
     {
         /// <summary>
-        /// 菜单编码
-        /// </summary>
-        public string MenuCode { get; set; }
-
-        /// <summary>
         /// 菜单名称
         /// </summary>
         public string MenuName { get; set; }

@@ -16,9 +16,14 @@ namespace Demo.Admin.Application
         public string UserId { get; set; }
 
         /// <summary>
-        /// 主题
+        /// 主题模式
         /// </summary>
-        public string Theme { get; set; }
+        public string ThemeMode { get; set; }
+
+        /// <summary>
+        /// 主题颜色
+        /// </summary>
+        public string ThemeColor { get; set; }
 
         /// <summary>
         /// 字号
@@ -34,11 +39,6 @@ namespace Demo.Admin.Application
         /// 是否只保持一个子菜单的展开
         /// </summary>
         public bool? UniqueOpened { get; set; }
-
-        /// <summary>
-        /// 租户Id
-        /// </summary>
-        public string TenantId { get; set; }
 
     }
 }

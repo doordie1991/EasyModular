@@ -52,7 +52,6 @@ namespace Demo.Admin.Application.RoleUserService
         /// 下拉
         /// </summary>
         /// <param name="roleCode"></param>
-        /// <param name="TenantId"></param>
         /// <returns></returns>
         Task<IResultModel> Select(string roleCode);
 

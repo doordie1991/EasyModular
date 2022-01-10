@@ -20,10 +20,10 @@ namespace Demo.Scheduling.Domain
         public string Module { get; set; }
 
         /// <summary>
-        /// 分组
+        /// 任务分组
         /// </summary>
         [Condition(ConditionalType = ConditionalType.Equal)]
-        public string Group { get; set; }
+        public string JobGroup { get; set; }
 
         /// <summary>
         /// 任务唯一键

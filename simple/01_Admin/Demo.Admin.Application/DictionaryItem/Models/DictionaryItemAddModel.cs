@@ -56,15 +56,5 @@ namespace Demo.Admin.Application
         /// </summary>
         public int Level { get; set; }
 
-        /// <summary>
-        /// 数据类别
-        /// </summary>
-        public DataCategory DataCategory { get; set; }
-
-        /// <summary>
-        /// 租户Id
-        /// </summary>
-        public string TenantId { get; set; }
-
     }
 }

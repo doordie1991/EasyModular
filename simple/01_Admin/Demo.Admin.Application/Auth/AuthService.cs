@@ -21,7 +21,6 @@ namespace Demo.Admin.Application.Auth
         private readonly ILoginInfo _loginInfo;
         private readonly IUserRepository _userRepository;
         private readonly IRoleUserRepository _roleUserRepository;
-        private readonly ITenantRepository _tenantRepository;
         private readonly IUserAuthRepository _userAuthRepository;
         private readonly IMenuRepository _menuRepository;
         private readonly IPermissionRepository _permissionRepository;
@@ -35,7 +34,6 @@ namespace Demo.Admin.Application.Auth
             , ILoginInfo loginInfo
             , IUserRepository userRepository
             , IRoleUserRepository roleUserRepository
-            , ITenantRepository tenantRepository
             , IUserAuthRepository userAuthRepository
             , IMenuRepository menuRepository
             , IPermissionRepository permissionRepository
@@ -50,7 +48,6 @@ namespace Demo.Admin.Application.Auth
 
             _userRepository = userRepository;
             _roleUserRepository = roleUserRepository;
-            _tenantRepository = tenantRepository;
             _userAuthRepository = userAuthRepository;
             _menuRepository = menuRepository;
             _permissionRepository = permissionRepository;
@@ -104,11 +101,6 @@ namespace Demo.Admin.Application.Auth
             if (loginInfo == null)
                 return result.Failed("更新登录信息失败");
 
-            //获取租户信息
-            var tenant = await _tenantRepository.FirstAsync(m => m.Id == user.TenantId && m.IsDel == false);
-            if (tenant == null)
-                return result.Failed("租户不存在");
-
             //获取用户角色
             var roles = await _roleUserRepository.QueryByUserId(user.Id);
 
@@ -123,7 +115,6 @@ namespace Demo.Admin.Application.Auth
             {
                 User = user,
                 AuthInfo = loginInfo,
-                Tenant = tenant,
                 RoleIds = string.Join(",", roles.Select(m => m.Id).ToList()),
                 RoleCodes = string.Join(",", roles.Select(m => m.RoleCode).ToList()),
                 RoleNames = string.Join(",", roles.Select(m => m.RoleName).ToList())
@@ -249,8 +240,6 @@ namespace Demo.Admin.Application.Auth
             if (!checkAccountResult.Successful)
                 return result.Failed(checkAccountResult.Msg);
 
-            //获取租户信息
-            var tenant = await _tenantRepository.QueryById(user.TenantId);
             //获取用户角色
             var roles = await _roleUserRepository.QueryByUserId(user.Id);
 
@@ -258,7 +247,6 @@ namespace Demo.Admin.Application.Auth
             {
                 User = user,
                 AuthInfo = authInfo,
-                Tenant = tenant,
                 RoleCodes = string.Join(",", roles.Select(m => m.RoleCode).ToList()),
                 RoleNames = string.Join(",", roles.Select(m => m.RoleName).ToList())
             });
@@ -278,13 +266,6 @@ namespace Demo.Admin.Application.Auth
             if (user.Status == UserStatus.Disabled)
                 return ResultModel.Failed("用户已被禁用");
 
-            var tenant = await _tenantRepository.FirstAsync(m => m.Id == user.TenantId && m.IsDel == false);
-            if (tenant == null)
-                return ResultModel.Failed("企业不存在");
-
-            if (tenant.Status == TenantStatus.Disabled)
-                return ResultModel.Failed("企业已被禁用");
-
             var roles = await _roleUserRepository.QueryByUserId(_loginInfo.UserId);
             var skin = await _skinRepository.FirstAsync(m => m.UserId == user.Id && m.IsDel == false);
 
@@ -297,9 +278,6 @@ namespace Demo.Admin.Application.Auth
                 JobName = user.JobName,
                 Phone = user.Phone,
                 Email = user.Email,
-                TenantId = tenant.Id,
-                TenantName = tenant.TenantName,
-                TenantType=tenant.TenantType,
                 RoleIds = string.Join(",", roles.Select(m => m.Id).ToList()),
                 RoleCodes = string.Join(",", roles.Select(m => m.RoleCode).ToList()),
                 RoleNames = string.Join(",", roles.Select(m => m.RoleName).ToList()),

@@ -19,7 +19,7 @@
     //数据源
     "DataSource": "default",
     //数据库连接串
-    "ConnectionString": "server=localhost;user id=root; password=cwh82813788; database=QUARTZ;",
+    "ConnectionString": "server=localhost;user id=root; password=xxx; database=QUARTZ;",
     //数据库类型（SqlServer/MySql/SQLite-Microsoft/OracleODP/Npgsql）
     "Provider": "MySql"
   }

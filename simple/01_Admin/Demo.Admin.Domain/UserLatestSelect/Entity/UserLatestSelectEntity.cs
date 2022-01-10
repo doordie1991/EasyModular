@@ -14,11 +14,6 @@ namespace Demo.Admin.Domain
     public partial class UserLatestSelectEntity : SoftDeleteEntity<string>
     {
         /// <summary>
-        /// 租户Id
-        /// </summary>
-        public string TenantId { get; set; }
-
-        /// <summary>
         /// 用户Id
         /// </summary>
         public string UserId { get; set; }

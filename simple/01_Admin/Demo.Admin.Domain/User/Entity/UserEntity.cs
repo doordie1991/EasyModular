@@ -13,10 +13,6 @@ namespace Demo.Admin.Domain
     [SugarTable("Sys_User", "用户")]
     public partial class UserEntity : SoftDeleteEntity<string>
     {
-        /// <summary>
-        /// 租户Id
-        /// </summary>
-        public string TenantId { get; set; }
 
         /// <summary>
         /// 用户编码

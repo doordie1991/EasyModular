@@ -29,11 +29,6 @@ namespace Demo.Admin.Domain
         public string Name { get; set; }
 
         /// <summary>
-        /// 数据隔离方式（0.不限、1.租户、2.行业）
-        /// </summary>
-        public IsolateType IsolateType { get; set; }
-
-        /// <summary>
         /// 数据来源（0:手动、1:自动）
         /// </summary>
         public DataSource Source { get; set; }

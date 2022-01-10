@@ -38,18 +38,6 @@ namespace Demo.Admin.Domain
         public string Controller { get; set; }
 
         /// <summary>
-        /// 租户Id
-        /// </summary>
-        [Condition(ConditionalType = ConditionalType.Equal)]
-        public string TenantId { get; set; }
-
-        /// <summary>
-        /// 租户
-        /// </summary>
-        [Condition(ConditionalType = ConditionalType.Like)]
-        public string TenantName { get; set; }
-
-        /// <summary>
         /// 操作时间(开始)
         /// </summary>
         [Condition(FieldName= "CreatedTime", ConditionalType = ConditionalType.GreaterThanOrEqual)]
@@ -59,7 +47,7 @@ namespace Demo.Admin.Domain
         /// <summary>
         /// 操作时间(结束)
         /// </summary> 
-        [Condition(FieldName = "CreatedTime", ConditionalType = ConditionalType.GreaterThanOrEqual)]
+        [Condition(FieldName = "CreatedTime", ConditionalType = ConditionalType.LessThan)]
         public DateTime? OperateTimeEnd
         {
             get

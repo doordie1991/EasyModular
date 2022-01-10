@@ -43,14 +43,14 @@ namespace Demo.Admin.Application.OrganizeService
 
         public async Task<IResultModel> Add(OrganizeAddModel model)
         {
-            if (await _organizeRepository.ExistsAsync(m => (m.OrganizeCode == model.OrganizeCode || m.OrganizeName == model.OrganizeName) && m.TenantId == _loginInfo.TenantId && m.IsDel == false))
+            if (await _organizeRepository.ExistsAsync(m => (m.OrganizeCode == model.OrganizeCode || m.OrganizeName == model.OrganizeName) && m.IsDel == false))
                 return ResultModel.HasExists;
 
             var entity = _mapper.Map<OrganizeEntity>(model);
 
             if (entity.ParentId == Guid.Empty.ToString("N"))
             {
-                entity.OrganizeFullName = $"{_loginInfo.TenantName}/{entity.OrganizeName}";
+                entity.OrganizeFullName = $"{entity.OrganizeName}";
             }
             else
             {
@@ -101,12 +101,12 @@ namespace Demo.Admin.Application.OrganizeService
 
             _mapper.Map(model, entity);
 
-            if (await _organizeRepository.ExistsAsync(m => (m.OrganizeCode == model.OrganizeCode || m.OrganizeName == model.OrganizeName) && m.TenantId == _loginInfo.TenantId && m.Id != entity.Id && m.IsDel == false))
+            if (await _organizeRepository.ExistsAsync(m => (m.OrganizeCode == model.OrganizeCode || m.OrganizeName == model.OrganizeName) && m.Id != entity.Id && m.IsDel == false))
                 return ResultModel.HasExists;
 
             if (entity.ParentId == Guid.Empty.ToString("N"))
             {
-                entity.OrganizeFullName = $"{_loginInfo.TenantName}/{entity.OrganizeName}";
+                entity.OrganizeFullName = $"{entity.OrganizeName}";
             }
             else
             {
@@ -145,7 +145,7 @@ namespace Demo.Admin.Application.OrganizeService
         public async Task<IResultModel> GetTree()
         {
             var list = new List<TreeResultModel<string, OrganizeTreeResultModel>>();
-            var all = await _organizeRepository.GetListAsync(m => m.TenantId == _loginInfo.TenantId && m.IsDel == false);
+            var all = await _organizeRepository.GetListAsync(m => m.IsDel == false);
 
             list = ResolveTree(all, Guid.Empty.ToString("N"));
 

@@ -20,12 +20,6 @@ namespace Demo.Admin.Domain
         public string ParentId { get; set; }
 
         /// <summary>
-        /// 菜单编码
-        /// </summary>
-        [Condition(ConditionalType = ConditionalType.Like)]
-        public string MenuCode { get; set; }
-
-        /// <summary>
         /// 菜单名称
         /// </summary>
         [Condition(ConditionalType = ConditionalType.Like)]

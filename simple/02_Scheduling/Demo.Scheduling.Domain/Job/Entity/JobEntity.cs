@@ -19,9 +19,9 @@ namespace Demo.Scheduling.Domain
         public string Module { get; set; }
 
         /// <summary>
-        /// 分组
+        /// 任务分组
         /// </summary>
-        public string Group { get; set; }
+        public string JobGroup { get; set; }
 
         /// <summary>
         /// 任务唯一键
@@ -77,6 +77,11 @@ namespace Demo.Scheduling.Domain
         /// 状态（0.Stop、1.运行、2.暂停、3.已完成、4.异常）
         /// </summary>
         public JobStatus Status { get; set; }
+
+        /// <summary>
+        /// 备注
+        /// </summary>
+        public string Remark { get; set; }
 
     }
 }

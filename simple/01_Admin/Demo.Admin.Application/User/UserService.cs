@@ -313,8 +313,8 @@ namespace Demo.Admin.Application.UserService
         {
             var list = new List<TreeResultModel<string, UserTreeResultModel>>();
 
-            var allOrg = await _organizeRepository.GetListAsync(m => m.TenantId == _loginInfo.TenantId && m.IsDel == false);
-            var allUser = await _userRepository.GetListAsync(m => m.TenantId == _loginInfo.TenantId && m.IsDel == false);
+            var allOrg = await _organizeRepository.GetListAsync(m => m.IsDel == false);
+            var allUser = await _userRepository.GetListAsync(m => m.IsDel == false);
             list = ResolveTree(allOrg, allUser, Guid.Empty.ToString("N"));
 
             return ResultModel.Success(list);

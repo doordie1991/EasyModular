@@ -20,14 +20,12 @@ namespace Demo.Admin.Infrastructure
         {
             var conditions = await _filter.GetConditions<ResourceEntity, AuditInfoQueryModel>(model);
             var query = _dbContext.Db.Queryable<AuditInfoEntity>()
-                                     .LeftJoin<TenantEntity>((x, y) => x.TenantId == y.Id && y.IsDel == false)
-                                     .LeftJoin<UserEntity>((x, y, z) => x.Creater == z.Id && z.IsDel == false)
-                                     .Select((x, y, z) => new AuditInfoEntity()
+                                     .LeftJoin<UserEntity>((x, y) => x.Creater == y.Id && y.IsDel == false)
+                                     .Select((x, y) => new AuditInfoEntity()
                                      {
                                          Id = x.Id.SelectAll(),
-                                         UserCode = z.UserCode,
-                                         UserName = z.UserName,
-                                         TenantName = y.TenantName
+                                         UserCode = y.UserCode,
+                                         UserName = y.UserName
                                      })
                                      .MergeTable()
                                      .Where(conditions)

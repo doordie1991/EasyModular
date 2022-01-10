@@ -43,11 +43,6 @@ namespace Demo.Admin.Infrastructure
             if (_loginInfo.TenantType == TenantType.System && _loginInfo.RoleCodes.Contains(RoleKey.ROLE_SUPER_CODE))
                 return conModels;
 
-            if (resource.IsolateType == IsolateType.Tenant)
-                conModels.Add(IsolateByTenant());
-
-            if (resource.IsolateType == IsolateType.Trade)
-                conModels.Add(IsolateByTrade());
 
             //如果用户属于白名单则不受设置的资源过滤条件控制
             if (await IsInWhitelist(resource.Id))
@@ -143,70 +138,6 @@ namespace Demo.Admin.Infrastructure
         }
 
         /// <summary>
-        /// 按租户隔离
-        /// </summary>
-        /// <returns></returns>
-        private ConditionalModel IsolateByTenant()
-        {
-            if (_loginInfo.TenantType == TenantType.Normal)
-            {
-                return new ConditionalModel()
-                {
-                    FieldName = "TenantId",
-                    ConditionalType = ConditionalType.Equal,
-                    FieldValue = _loginInfo.TenantId
-                };
-            }
-            else
-            {
-                var tenantIds = string.Join(',', this.GetRelateTenantIds(_loginInfo.TenantId));
-                return new ConditionalModel()
-                {
-                    FieldName = "TenantId",
-                    ConditionalType = ConditionalType.In,
-                    FieldValue = tenantIds
-                };
-            }
-
-        }
-
-        /// <summary>
-        /// 按行业隔离
-        /// </summary>
-        /// <returns></returns>
-        private ConditionalCollections IsolateByTrade()
-        {
-            var conditions = new List<KeyValuePair<WhereType, ConditionalModel>>()
-            {
-                new  KeyValuePair<WhereType, ConditionalModel>( WhereType.And ,new ConditionalModel()
-                     {
-                       FieldName = "Trade",
-                       ConditionalType = ConditionalType.Equal,
-                       FieldValue =  "all"
-                     }),
-                new  KeyValuePair<WhereType, ConditionalModel>( WhereType.Or ,new ConditionalModel()
-                     {
-                       FieldName = "Trade",
-                       ConditionalType = ConditionalType.Equal,
-                       FieldValue =  _loginInfo.Trade
-                     }),
-                new  KeyValuePair<WhereType, ConditionalModel>( WhereType.Or ,new ConditionalModel()
-                     {
-                       FieldName = "TenantId",
-                       ConditionalType = ConditionalType.Equal,
-                       FieldValue =  _loginInfo.TenantId
-                     })
-            };
-
-            var collections = new ConditionalCollections()
-            {
-                ConditionalList = conditions
-            };
-
-            return collections;
-        }
-
-        /// <summary>
         /// 是否在白名单
         /// </summary>
         /// <param name="resourceId"></param>
@@ -265,25 +196,6 @@ namespace Demo.Admin.Infrastructure
                     return m => Convert.ToString(propertyVal);
             }
         }
-
-        /// <summary>
-        /// 获取关联租户
-        /// </summary>
-        /// <param name="parentId"></param>
-        /// <returns></returns>
-        public IQueryable<string> GetRelateTenantIds(string parentId)
-        {
-            var result = new List<string>();
-
-            var data = _dbContext.Db.Queryable<TenantTreeEntity>()
-                             .Where(m => m.IsDel == false)
-                             .ToChildList(m => m.ParentId, parentId)
-                             .Select(m => m.Id);
-
-            result.AddRange(data);
-            return result.AsQueryable();
-        }
-
 
     }
 }

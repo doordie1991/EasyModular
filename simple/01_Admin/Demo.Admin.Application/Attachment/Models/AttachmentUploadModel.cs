@@ -12,11 +12,6 @@ namespace Demo.Admin.Application
     public class AttachmentUploadModel
     {
         /// <summary>
-        /// 租户Id
-        /// </summary>
-        public string TenantId { get; set; }
-
-        /// <summary>
         /// 用户账号
         /// </summary>
         public string UserCode { get; set; }

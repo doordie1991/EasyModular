@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,17 +16,19 @@ namespace Demo.WebHost
     {
         public static void Main(string[] args)
         {
-            // 解决乱码问题
-            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+            var config = new ConfigurationBuilder()
+                    .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "config"))
+                    .AddJsonFile("web.json", optional: true, reloadOnChange: true)
+                    .Build();
 
-            CreateHostBuilder(args).Build().Run();
+            CreateHostBuilder(args, config).Build().Run();
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
+        public static IHostBuilder CreateHostBuilder(string[] args,IConfiguration config) =>
                 Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>().UseUrls("http://*:5000");
+                    webBuilder.UseStartup<Startup>().UseUrls(config.GetSection("host")?.Value);
                     webBuilder.UseEasyModularSerilog();
                 });
     }

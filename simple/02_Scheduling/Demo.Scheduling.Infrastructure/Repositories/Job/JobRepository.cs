@@ -21,6 +21,13 @@ namespace Demo.Scheduling.Infrastructure
             var conditions = await _filter.GetConditions<JobEntity, JobQueryModel>(model);
 
             var query = _dbContext.Db.Queryable<JobEntity>()
+                                     .LeftJoin<JobGroupEntity>((x, y) => x.JobGroup == y.Code && y.IsDel == false)
+                                     .Select((x, y) => new JobEntity()
+                                     {
+                                         Id = x.Id.SelectAll(),
+                                         GroupName = y.Name
+                                     })
+                                     .MergeTable()
                                      .Where(conditions)
                                      .OrderBy(model.OrderFileds);
 

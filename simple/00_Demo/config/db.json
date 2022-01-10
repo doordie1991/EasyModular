@@ -1,6 +1,6 @@
 {
   "DbType": 0, //0:MySql,1:SqlServer,2:Sqlite,3:Oracle,4:PostgreSQL
-  "ConnectionString": "server=localhost;user id=root; password=xxxx; database=edcp;AllowUserVariables=true",
+  "ConnectionString": "server=localhost;user id=root; password=xxx; database=demo;AllowUserVariables=true",
   "IsPintLog": true,
   "UserKey":"UserId", //用户标识：用户Id:UserId或用户账号:UserCode
   "Modules": [

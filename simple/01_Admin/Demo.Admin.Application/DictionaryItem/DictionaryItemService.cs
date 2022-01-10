@@ -86,7 +86,6 @@ namespace Demo.Admin.Application.DictionaryItemService
                 m.GroupCode = model.GroupCode;
                 m.DictCode = model.DictCode;
                 m.ParentId = model.ParentId;
-                m.DataCategory = DataCategory.Private;
             });
 
             var result = await _repository.InsertRangeAsync(entities);

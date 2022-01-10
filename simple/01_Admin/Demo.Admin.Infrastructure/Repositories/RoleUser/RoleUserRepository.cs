@@ -20,7 +20,7 @@ namespace Demo.Admin.Infrastructure
         {
             var conditions = await _filter.GetConditions<RoleUserEntity, RoleUserQueryModel>(model);
             var query = _dbContext.Db.Queryable<RoleUserEntity>()
-                                     .InnerJoin<UserEntity>((x, y) => x.UserId == y.Id && y.TenantId == _dbContext.LoginInfo.TenantId && y.IsDel == false)
+                                     .InnerJoin<UserEntity>((x, y) => x.UserId == y.Id && y.IsDel == false)
                                      .Select((x, y) => new RoleUserEntity
                                      {
                                          Id = x.Id.SelectAll(),
@@ -42,14 +42,14 @@ namespace Demo.Admin.Infrastructure
         {
             var query = _dbContext.Db.Queryable<RoleUserEntity>()
                                      .InnerJoin<RoleEntity>((x, y) => x.RoleId == y.Id && y.RoleCode == roleCode && y.IsDel == false)
-                                     .InnerJoin<UserEntity>((x, y, z) => x.UserId == z.Id && z.TenantId == _dbContext.LoginInfo.TenantId && z.IsDel == false)
+                                     .InnerJoin<UserEntity>((x, y, z) => x.UserId == z.Id && z.IsDel == false)
                                      .Select((x, y, z) => new RoleUserEntity
-                                      {
-                                          Id = x.Id,
-                                          UserId = x.UserId,
-                                          UserCode = z.UserCode,
-                                          UserName = z.UserName,
-                                      });
+                                     {
+                                         Id = x.Id,
+                                         UserId = x.UserId,
+                                         UserCode = z.UserCode,
+                                         UserName = z.UserName,
+                                     });
 
 
             var data = await query.ToListAsync();
@@ -59,8 +59,8 @@ namespace Demo.Admin.Infrastructure
         public async Task<IList<RoleUserEntity>> QueryByUserId(string userId)
         {
             var query = _dbContext.Db.Queryable<RoleUserEntity>()
-                                     .InnerJoin<RoleEntity>((x,y)=>x.RoleId==y.Id&&y.IsDel==false)
-                                     .Where((x, y) => x.UserId == userId && x.IsDel == false )
+                                     .InnerJoin<RoleEntity>((x, y) => x.RoleId == y.Id && y.IsDel == false)
+                                     .Where((x, y) => x.UserId == userId && x.IsDel == false)
                                      .Select((x, y) => new RoleUserEntity
                                      {
                                          RoleCode = y.RoleCode,

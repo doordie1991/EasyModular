@@ -22,12 +22,6 @@ namespace Demo.Admin.Application.RoleService
         Task<IResultModel> Query(RoleQueryModel model);
 
         /// <summary>
-        /// 根据套餐Id查询
-        /// </summary>
-        /// <returns></returns>
-        Task<IResultModel> QueryByPackageId();
-
-        /// <summary>
         /// 新增
         /// </summary>
         /// <param name="model"></param>
@@ -58,7 +52,6 @@ namespace Demo.Admin.Application.RoleService
         /// <summary>
         /// 角色树
         /// </summary>
-        /// <param name="TenantId"></param>
         /// <returns></returns>
         Task<IResultModel> Tree();
 

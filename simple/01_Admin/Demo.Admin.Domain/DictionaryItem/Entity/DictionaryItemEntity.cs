@@ -14,7 +14,7 @@ namespace Demo.Admin.Domain
     [SugarTable("Sys_Dictionary_Item", "系统配置")]
     public partial class DictionaryItemEntity : SoftDeleteEntity<string>
     {
-         /// <summary>
+        /// <summary>
         /// 分组编码
         /// </summary>
         public string GroupCode { get; set; }
@@ -58,17 +58,5 @@ namespace Demo.Admin.Domain
         /// 级别
         /// </summary>
         public int Level { get; set; }
-
-        /// <summary>
-        /// 数据类别
-        /// </summary>
-        public DataCategory DataCategory { get; set; }
-
-        /// <summary>
-        /// 租户Id
-        /// </summary>
-        public string TenantId { get; set; }
-
     }
 }
-     

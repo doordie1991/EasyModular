@@ -44,7 +44,7 @@ namespace Demo.Admin.Infrastructure
         {
             var query = _dbContext.Db.Queryable<UserEntity>()
                                      .LeftJoin<OrganizeEntity>((x, y) => x.OrganizeId == y.Id && y.IsDel == false)
-                                     .Where((x, y) => userCodes.Contains(x.UserCode) && x.TenantId == _dbContext.LoginInfo.TenantId && x.IsDel == false)
+                                     .Where((x, y) => userCodes.Contains(x.UserCode) && x.IsDel == false)
                                      .Select((x, y) => new UserEntity()
                                      {
                                          Id = x.Id.SelectAll(),
@@ -60,7 +60,7 @@ namespace Demo.Admin.Infrastructure
         {
             var query = _dbContext.Db.Queryable<UserEntity>()
                                      .LeftJoin<OrganizeEntity>((x, y) => x.OrganizeId == y.Id && y.IsDel == false)
-                                     .Where((x, y) => userIds.Contains(x.Id) && x.TenantId == _dbContext.LoginInfo.TenantId && x.IsDel == false)
+                                     .Where((x, y) => userIds.Contains(x.Id) && x.IsDel == false)
                                      .Select((x, y) => new UserEntity()
                                      {
                                          Id = x.Id.SelectAll(),
@@ -77,7 +77,7 @@ namespace Demo.Admin.Infrastructure
             var query = _dbContext.Db.Queryable<UserEntity>()
                                     .LeftJoin<OrganizeEntity>((x, y) => x.OrganizeId == y.Id && y.IsDel == false)
                                     .InnerJoin<RoleUserEntity>((x, y, z) => x.Id == z.UserId && z.RoleId == roleId && z.IsDel == false)
-                                    .Where((x, y, z) =>  x.TenantId == _dbContext.LoginInfo.TenantId && x.IsDel == false)
+                                    .Where((x, y, z) => x.IsDel == false)
                                     .Select((x, y, z) => new UserEntity()
                                     {
                                         Id = x.Id.SelectAll(),
@@ -92,7 +92,7 @@ namespace Demo.Admin.Infrastructure
         public async Task<IList<UserLatestSelectEntity>> QueryLatestSelect(UserQueryModel model)
         {
             var query = _dbContext.Db.Queryable<UserLatestSelectEntity, UserEntity, OrganizeEntity>((x, y, z) => new JoinQueryInfos(JoinType.Inner, x.RelationId == y.Id && y.IsDel == false, JoinType.Left, y.OrganizeId == z.Id && z.IsDel == false))
-                .Where((x, y, z) => x.TenantId == _dbContext.LoginInfo.TenantId&&x.UserId== _dbContext.LoginInfo.UserId && x.IsDel == false);
+                .Where((x, y, z) => x.UserId == _dbContext.LoginInfo.UserId && x.IsDel == false);
 
             query.WhereIF(!string.IsNullOrEmpty(model.OrganizeName), (x, y, z) => z.OrganizeFullName.Contains(model.OrganizeName));
 
@@ -119,7 +119,7 @@ namespace Demo.Admin.Infrastructure
         {
             var query = _dbContext.Db.Queryable<UserEntity>()
                                      .LeftJoin<OrganizeEntity>((x, y) => x.OrganizeId == y.Id && y.IsDel == false)
-                                     .Where((x, y) => x.TenantId == _dbContext.LoginInfo.TenantId &&x.OrganizeId==_dbContext.LoginInfo.OrganizeId&& x.IsDel == false);
+                                     .Where((x, y) => x.OrganizeId == _dbContext.LoginInfo.OrganizeId && x.IsDel == false);
 
             query.WhereIF(!string.IsNullOrEmpty(model.OrganizeName), (x, y) => y.OrganizeFullName.Contains(model.OrganizeName));
             query.WhereIF(!string.IsNullOrEmpty(model.UserCode), (x, y) => x.UserCode.Contains(model.UserCode));
@@ -143,7 +143,7 @@ namespace Demo.Admin.Infrastructure
 
         public async Task<IList<UserEntity>> GetTop(string keywords, int count)
         {
-            var query = _dbContext.Db.Queryable<UserEntity>().Where(m => m.TenantId == _dbContext.LoginInfo.TenantId && m.IsDel == false);
+            var query = _dbContext.Db.Queryable<UserEntity>().Where(m => m.IsDel == false);
             query.WhereIF(!string.IsNullOrEmpty(keywords), m => m.UserCode.Contains(keywords) || m.UserName.Contains(keywords) || keywords.Contains(m.UserCode) || keywords.Contains(m.UserName));
             query.Take(count).OrderBy(" UserCode asc");
 
@@ -154,7 +154,7 @@ namespace Demo.Admin.Infrastructure
 
         public async Task<string> GetUserNames(string userCodes)
         {
-            var query = _dbContext.Db.Queryable<UserEntity>().Where(m => userCodes.Contains(m.UserCode) && m.TenantId == _dbContext.LoginInfo.TenantId && m.IsDel == false);
+            var query = _dbContext.Db.Queryable<UserEntity>().Where(m => userCodes.Contains(m.UserCode) && m.IsDel == false);
             var data = await query.ToListAsync();
 
             return string.Join(",", data.Select(m => m.UserName).ToArray());

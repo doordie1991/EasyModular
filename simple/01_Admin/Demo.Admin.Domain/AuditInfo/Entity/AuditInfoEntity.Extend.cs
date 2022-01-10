@@ -10,12 +10,6 @@ namespace Demo.Admin.Domain
     public partial class AuditInfoEntity
     {
         /// <summary>
-        /// 租户名称
-        /// </summary>
-        [SugarColumn(IsIgnore = true)]
-        public string TenantName { get; set; }
-
-        /// <summary>
         /// 用户账号
         /// </summary>
         [SugarColumn(IsIgnore = true)]

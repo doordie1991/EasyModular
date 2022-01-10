@@ -43,11 +43,6 @@ namespace Demo.Admin.Domain
         /// </summary>
         public int Sort { get; set; }
 
-        /// <summary>
-        /// 租户Id
-        /// </summary>
-        public string TenantId { get; set; }
-
     }
 }
      

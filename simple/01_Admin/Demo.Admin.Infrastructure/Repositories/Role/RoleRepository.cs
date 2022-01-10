@@ -30,14 +30,5 @@ namespace Demo.Admin.Infrastructure
             return data;
         }
 
-
-        public async Task<List<RoleEntity>> QueryByPackageId(string packageId)
-        {
-            var query = _dbContext.Db.Queryable<RoleEntity>()
-                                     .Where(m => SqlFunc.Subqueryable<PackageRoleEntity>().Where(s => s.PackageId == packageId && s.RoleId == m.Id).Any() && m.IsDel == false);
-            var data = await query.ToListAsync();
-
-            return data;
-        }
     }
 }

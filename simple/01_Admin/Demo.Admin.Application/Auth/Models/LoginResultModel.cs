@@ -18,11 +18,6 @@ namespace Demo.Admin.Application
         public UserAuthEntity AuthInfo { get; set; }
 
         /// <summary>
-        /// 租户信息
-        /// </summary>
-        public TenantEntity Tenant { get; set; }
-
-        /// <summary>
         /// 角色Id
         /// </summary>
         public string RoleIds { get; set; }

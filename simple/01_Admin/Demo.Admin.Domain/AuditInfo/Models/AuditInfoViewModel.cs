@@ -57,12 +57,5 @@ namespace Demo.Admin.Domain
         /// IP
         /// </summary>
         public string IP { get; set; }
-
-        /// <summary>
-        /// 租户Id
-        /// </summary>
-        public string TenantId { get; set; }
-
-        public string TenantName { get; set; }
     }
 }

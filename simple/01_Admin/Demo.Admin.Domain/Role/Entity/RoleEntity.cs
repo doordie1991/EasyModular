@@ -14,11 +14,6 @@ namespace Demo.Admin.Domain
     public partial class RoleEntity : SoftDeleteEntity<string>
     {
         /// <summary>
-        /// 租户Id
-        /// </summary>
-        public string TenantId { get; set; }
-
-        /// <summary>
         /// 角色编码
         /// </summary>
         public string RoleCode { get; set; }

@@ -60,10 +60,5 @@ namespace Demo.Admin.Application
         /// </summary>
         public string IP { get; set; }
 
-        /// <summary>
-        /// 租户Id
-        /// </summary>
-        public string TenantId { get; set; }
-
     }
 }

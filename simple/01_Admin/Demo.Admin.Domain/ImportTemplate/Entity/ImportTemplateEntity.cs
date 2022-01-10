@@ -33,11 +33,6 @@ namespace Demo.Admin.Domain
         /// </summary>
         public string AttachmentId { get; set; }
 
-        /// <summary>
-        /// 租户Id
-        /// </summary>
-        public string TenantId { get; set; }
-
     }
 }
      

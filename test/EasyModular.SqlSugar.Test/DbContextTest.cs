@@ -1,5 +1,4 @@
-﻿//using Demo.ModularA.Infrastructure.Repositories;
-using EasyModular.Auth;
+﻿using EasyModular.Auth;
 using EasyModular.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;

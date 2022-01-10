@@ -24,7 +24,6 @@ namespace Demo.Admin.Application.RoleService
         private readonly IPermissionRepository _permissionRepository;
         private readonly IRoleMenuRepository _roleMenuRepository;
         private readonly IRolePermissionRepository _rolePermissionRepository;
-        private readonly ITenantRepository _tenantRepository;
         public RoleService(IMapper mapper
             , DbContext dbContext
             , ILoginInfo loginInfo
@@ -34,7 +33,7 @@ namespace Demo.Admin.Application.RoleService
             , IPermissionRepository permissionRepository
             , IRoleMenuRepository roleMenuRepository
             , IRolePermissionRepository rolePermissionRepository
-            , ITenantRepository tenantRepository)
+            )
         {
             _mapper = mapper;
             _dbContext = dbContext;
@@ -45,7 +44,6 @@ namespace Demo.Admin.Application.RoleService
             _permissionRepository = permissionRepository;
             _roleMenuRepository = roleMenuRepository;
             _rolePermissionRepository = rolePermissionRepository;
-            _tenantRepository = tenantRepository;
         }
 
         public async Task<IResultModel> Query(RoleQueryModel model)
@@ -59,17 +57,9 @@ namespace Demo.Admin.Application.RoleService
             return ResultModel.Success(result);
         }
 
-        public async Task<IResultModel> QueryByPackageId()
-        {
-            var tenant = await _tenantRepository.FirstAsync(m => m.Id == _loginInfo.TenantId && m.IsDel == false);
-            var data = await _roleRepository.QueryByPackageId(tenant.PackageId);
-
-            return ResultModel.Success(data);
-        }
-
         public async Task<IResultModel> Add(RoleAddModel model)
         {
-            if (await _roleRepository.ExistsAsync(m => m.RoleCode == model.RoleCode && m.TenantId == model.TenantId))
+            if (await _roleRepository.ExistsAsync(m => m.RoleCode == model.RoleCode && m.IsDel == false))
                 return ResultModel.HasExists;
 
             var entity = _mapper.Map<RoleEntity>(model);
@@ -114,8 +104,7 @@ namespace Demo.Admin.Application.RoleService
 
         public async Task<IResultModel> Tree()
         {
-            var tenant = await _tenantRepository.FirstAsync(m => m.Id == _loginInfo.TenantId && m.IsDel == false);
-            var all = await _roleRepository.QueryByPackageId(tenant.PackageId);
+            var all = await _roleRepository.GetListAsync(m => m.IsDel == false);
 
             var list = all.OrderBy(m => m.RoleName)
               .Select(m => new TreeResultModel<string, RoleEntity>

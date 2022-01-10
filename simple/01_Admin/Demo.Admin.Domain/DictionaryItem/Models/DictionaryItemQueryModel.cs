@@ -49,11 +49,5 @@ namespace Demo.Admin.Domain
         [Condition(ConditionalType = ConditionalType.Like)]
         public string ItemValue { get; set; }
 
-        /// <summary>
-        /// 数据类别
-        /// </summary>
-        [Condition(ConditionalType = ConditionalType.Equal)]
-        public DataCategory DataCategory { get; set; }
-
     }
 }

@@ -217,7 +217,6 @@ namespace Demo.Admin.Application.ResourceService
                             Module = module.Id,
                             Code = classInfo.TableName,
                             Name = classInfo.TableDescription,
-                            IsolateType = IsolateType.All,
                             Source = DataSource.Auto,
                             Creater = "Sys",
                             CreaterName = "ϵͳ",

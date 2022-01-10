@@ -11,11 +11,6 @@ namespace Demo.Admin.Application
     public class UserViewModel: BaseEntity<string>
     {
         /// <summary>
-        /// 租户Id
-        /// </summary>
-        public string TenantId { get; set; }
-
-        /// <summary>
         /// 用户编码
         /// </summary>
         public string UserCode { get; set; }

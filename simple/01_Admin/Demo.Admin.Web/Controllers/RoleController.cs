@@ -32,14 +32,6 @@ namespace Demo.Admin.Web
             return _service.Query(model);
         }
 
-        [HttpGet]
-        [Description("根据套餐Id查询")]
-        [Common]
-        public Task<IResultModel> QueryByPackageId()
-        {
-            return _service.QueryByPackageId();
-        }
-
         [HttpPost]
         [Description("添加")]
         public Task<IResultModel> Add(RoleAddModel model)

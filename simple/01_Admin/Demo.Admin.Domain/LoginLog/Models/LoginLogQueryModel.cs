@@ -44,12 +44,6 @@ namespace Demo.Admin.Domain
         public string IP { get; set; }
 
         /// <summary>
-        /// 租户
-        /// </summary>
-        [Condition(ConditionalType = ConditionalType.Equal)]
-        public string TenantName { get; set; }
-
-        /// <summary>
         /// 登录时间(开始)
         /// </summary>
         [Condition(FieldName = "CreatedTime", ConditionalType = ConditionalType.GreaterThanOrEqual)]
@@ -60,7 +54,7 @@ namespace Demo.Admin.Domain
         /// <summary>
         /// 登录时间(结束)
         /// </summary> 
-        [Condition(FieldName = "CreatedTime", ConditionalType = ConditionalType.GreaterThanOrEqual)]
+        [Condition(FieldName = "CreatedTime", ConditionalType = ConditionalType.LessThan)]
         public DateTime? LoginTimeEnd
         {
             get
@@ -72,12 +66,6 @@ namespace Demo.Admin.Domain
                 if (value != DateTime.MinValue) loginTimeEnd = Convert.ToDateTime(value.ToString()).AddDays(1);
             }
         }
-
-        /// <summary>
-        /// 租户Id
-        /// </summary>
-        [Condition(ConditionalType = ConditionalType.Equal)]
-        public string TenantId { get; set; }
 
     }
 }

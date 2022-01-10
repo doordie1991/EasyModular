@@ -56,9 +56,6 @@ namespace Demo.Admin.Web.Controllers
             {
                 var result = await _authService.Login(model, _webConfigModel.RefreshTokenExpiredTime);
 
-                if (result.Data != null && result.Data.User != null)
-                    log.TenantId = result.Data.User.TenantId;
-
                 log.Result = result.Successful;
                 log.IP = _loginInfo.IP;
                 log.BrowserInfo = _accessor.HttpContext.Request.Headers["User-Agent"];
@@ -77,10 +74,6 @@ namespace Demo.Admin.Web.Controllers
                        new Claim(ClaimsName.UserId, user.Id.ToString()),
                        new Claim(ClaimsName.UserCode,user.UserCode),
                        new Claim(ClaimsName.UserName, user.UserName),
-                       new Claim(ClaimsName.TenantId, user.TenantId.ToString()),
-                       new Claim(ClaimsName.TenantName, result.Data.Tenant.TenantName),
-                       new Claim(ClaimsName.TenantType, result.Data.Tenant.TenantType),
-                       new Claim(ClaimsName.Trade, result.Data.Tenant.Trade),
                        new Claim(ClaimsName.OrganizeId, user.OrganizeId.ToString()),
                        new Claim(ClaimsName.LoginTime, loginInfo.LoginTime.ToString()),
                        new Claim(ClaimsName.RoleIds, result.Data.RoleIds),
@@ -123,10 +116,6 @@ namespace Demo.Admin.Web.Controllers
                      new Claim(ClaimsName.UserId, user.Id.ToString()),
                      new Claim(ClaimsName.UserCode,user.UserCode),
                      new Claim(ClaimsName.UserName, user.UserName),
-                     new Claim(ClaimsName.TenantId, user.TenantId.ToString()),
-                     new Claim(ClaimsName.TenantName, result.Data.Tenant.TenantName),
-                     new Claim(ClaimsName.TenantType, result.Data.Tenant.TenantType),
-                     new Claim(ClaimsName.Trade, result.Data.Tenant.Trade),
                      new Claim(ClaimsName.OrganizeId, user.OrganizeId.ToString()),
                      new Claim(ClaimsName.LoginTime, loginInfo.LoginTime.ToString()),
                      new Claim(ClaimsName.RoleIds, result.Data.RoleIds),

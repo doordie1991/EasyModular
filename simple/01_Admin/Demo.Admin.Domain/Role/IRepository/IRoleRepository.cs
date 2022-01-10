@@ -10,8 +10,6 @@ namespace Demo.Admin.Domain
     public interface IRoleRepository : IRepository<RoleEntity>
     {
         Task<IList<RoleEntity>> Query(RoleQueryModel model);
-
-        Task<List<RoleEntity>> QueryByPackageId(string packageId);
     }
 }
  

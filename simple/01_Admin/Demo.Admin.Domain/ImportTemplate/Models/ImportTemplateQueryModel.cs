@@ -31,11 +31,5 @@ namespace Demo.Admin.Domain
         [Condition(ConditionalType = ConditionalType.Like)]
         public string TemplateName { get; set; }
 
-        /// <summary>
-        /// 租户Id
-        /// </summary>
-        [Condition(ConditionalType = ConditionalType.Equal)]
-        public string TenantId { get; set; }
-
     }
 }

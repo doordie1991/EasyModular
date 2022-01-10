@@ -17,21 +17,6 @@ namespace Demo.Admin.Domain
         public string UserId { get; set; }
 
         /// <summary>
-        /// 租户Id
-        /// </summary>
-        public string TenantId { get; set; }
-
-        /// <summary>
-        /// 租户名称
-        /// </summary>
-        public string TenantName { get; set; }
-
-        /// <summary>
-        /// 租户类别
-        /// </summary>
-        public string TenantType { get; set; }
-
-        /// <summary>
         /// 用户编码
         /// </summary>
         public string UserCode { get; set; }

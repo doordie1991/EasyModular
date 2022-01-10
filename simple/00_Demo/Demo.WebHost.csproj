@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -17,6 +17,10 @@
     <ProjectReference Include="..\..\src\EasyModular\EasyModular.csproj" />
     <ProjectReference Include="..\01_Admin\Demo.Admin.Web\Demo.Admin.Web.csproj" />
     <ProjectReference Include="..\02_Scheduling\Demo.Scheduling.Api\Demo.Scheduling.Web.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="log\" />
   </ItemGroup>
 
 

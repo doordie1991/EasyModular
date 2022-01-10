@@ -40,11 +40,11 @@ namespace Demo.Scheduling.Application.JobService
         public async Task<IResultModel> Add(JobAddModel model)
         {
             var entity = _mapper.Map<JobEntity>(model);
-            entity.JobKey = $"{model.Group}.{model.Code}";
+            entity.JobKey = $"{model.JobGroup}.{model.Code}";
             entity.Status = JobStatus.Stop;
 
             if (await _jobRepository.ExistsAsync(m => m.JobKey == entity.JobKey))
-                return ResultModel.Failed($"当前任务组{entity.Group}已存在任务编码${entity.Code}");
+                return ResultModel.Failed($"当前任务组{entity.JobGroup}已存在任务编码${entity.Code}");
 
             //是否立即启动
             if (model.Start)
@@ -65,7 +65,7 @@ namespace Demo.Scheduling.Application.JobService
             if (entity == null)
                 return ResultModel.NotExists;
 
-            var jobKey = new JobKey(entity.Code, entity.Group);
+            var jobKey = new JobKey(entity.Code, entity.JobGroup);
             await _quartzServer.DeleteJob(jobKey);
 
             var result = await _jobRepository.SoftDeleteAsync(entity);
@@ -90,14 +90,14 @@ namespace Demo.Scheduling.Application.JobService
                 return ResultModel.NotExists;
 
             if (await _jobRepository.ExistsAsync(m => m.JobKey == model.JobKey && m.Id != model.Id))
-                return ResultModel.Failed($"当前任务组{entity.Group}已存在任务编码${entity.Code}");
+                return ResultModel.Failed($"当前任务组{entity.JobGroup}已存在任务编码${entity.Code}");
 
             _mapper.Map(model, entity);
 
             //如果任务不是停止或者已完成，先删除在添加
             if (entity.Status != JobStatus.Stop && entity.Status != JobStatus.Completed)
             {
-                var jobKey = new JobKey(entity.Code, entity.Group);
+                var jobKey = new JobKey(entity.Code, entity.JobGroup);
                 await _quartzServer.DeleteJob(jobKey);
 
                 var result = await AddJob(entity, entity.Status == JobStatus.Running);
@@ -126,7 +126,7 @@ namespace Demo.Scheduling.Application.JobService
                     return ResultModel.Failed("任务已暂停，请刷新页面");
 
 
-                var jobKey = new JobKey(entity.Code, entity.Group);
+                var jobKey = new JobKey(entity.Code, entity.JobGroup);
                 await _quartzServer.PauseJob(jobKey);
             }
             catch (Exception ex)
@@ -149,7 +149,7 @@ namespace Demo.Scheduling.Application.JobService
                 if (entity.Status == JobStatus.Running)
                     return ResultModel.Failed("任务已启动，请刷新页面");
 
-                var jobKey = new JobKey(entity.Code, entity.Group);
+                var jobKey = new JobKey(entity.Code, entity.JobGroup);
 
                 var job = await _quartzServer.GetJob(jobKey);
                 if (job == null)
@@ -190,7 +190,7 @@ namespace Demo.Scheduling.Application.JobService
                     return ResultModel.Failed("任务已完成，无法停止");
 
 
-                var jobKey = new JobKey(entity.Code, entity.Group);
+                var jobKey = new JobKey(entity.Code, entity.JobGroup);
                 await _quartzServer.DeleteJob(jobKey);
 
                 entity.Status = JobStatus.Stop;
@@ -208,7 +208,7 @@ namespace Demo.Scheduling.Application.JobService
 
         public async Task<IResultModel> UpdateStatus(string group, string code, JobStatus status)
         {
-            var entity = await _jobRepository.FirstAsync(m => m.Group == group && m.Code == code && m.IsDel == false);
+            var entity = await _jobRepository.FirstAsync(m => m.JobGroup == group && m.Code == code && m.IsDel == false);
             if (entity == null)
                 return ResultModel.NotExists;
 
@@ -232,11 +232,11 @@ namespace Demo.Scheduling.Application.JobService
                 if (jobClassType == null)
                     return ResultModel.Failed($"任务类({entity.JobClass})不存在");
 
-                var jobKey = new JobKey(entity.Code, entity.Group);
+                var jobKey = new JobKey(entity.Code, entity.JobGroup);
                 var job = JobBuilder.Create(jobClassType).WithIdentity(jobKey)
                     .UsingJobData("id", entity.Id.ToString()).Build();
 
-                var triggerBuilder = TriggerBuilder.Create().WithIdentity(entity.Code, entity.Group)
+                var triggerBuilder = TriggerBuilder.Create().WithIdentity(entity.Code, entity.JobGroup)
                     .EndAt(entity.EndTime.AddDays(1))
                     .WithDescription(entity.Name);
 

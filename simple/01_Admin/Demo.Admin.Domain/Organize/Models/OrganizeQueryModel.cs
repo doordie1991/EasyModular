@@ -37,12 +37,5 @@ namespace Demo.Admin.Domain
         [Condition(ConditionalType = ConditionalType.Equal)]
         public string ParentId { get; set; }
 
-
-        /// <summary>
-        /// 租户Id
-        /// </summary>
-        [Condition(ConditionalType = ConditionalType.Equal)]
-        public string TenantId { get; set; }
-
     }
 }
