@@ -4,7 +4,7 @@
 </div>
 
 
-## EasyModular 是基于.NET 6的简易模块化框架，开箱即用，1分钟即可以搭建一个简单可用的模块化框架
+## EasyModular 是基于.NET6 的简易模块化框架，开箱即用，1分钟即可以搭建一个简单可用的模块化框架
 
 ![20210222002554](https://cdn.jsdelivr.net/gh/doordie1991/PicBed@main/picture/20210222002554.png)
 
