@@ -30,7 +30,7 @@
               <el-form-item prop="verifyCode.code">
                 <el-input v-model="form.verifyCode.code" autocomplete="off" placeholder="验证码">
                   <template v-slot:prefix>
-                    <em-icon name="verifycode"></em-icon>
+                    <em-icon name="safetycertificate"></em-icon>
                   </template>
                 </el-input>
               </el-form-item>
@@ -277,8 +277,8 @@ export default {
   }
 
   .em-icon {
-    font-size: 1.6em;
-    vertical-align: -0.3em;
+    font-size: 1.4em;
+    vertical-align: -0.2em;
   }
 
   .el-input__inner {

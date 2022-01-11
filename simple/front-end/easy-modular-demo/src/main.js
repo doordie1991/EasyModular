@@ -21,7 +21,7 @@ app.actions = {
   //皮肤保存
   saveSkin: $api.admin.skin.save,
   //获取发布记录
-  getreleaseLog: $api.admin.releaseLog.queryAll
+  getReleaseLog: $api.admin.releaseLog.queryAll
 }
 
  EasyModularUI.use(app)
