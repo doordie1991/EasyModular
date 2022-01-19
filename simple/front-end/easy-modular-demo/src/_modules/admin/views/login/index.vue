@@ -1,6 +1,6 @@
 <template>
   <div class="em-login">
-    <div class="em-login-box">
+    <div class="em-login-panel">
       <div class="em-login-content">
         <!--头部-->
         <div class="em-login-content-header">
@@ -40,7 +40,7 @@
             </div>
           </div>
           <el-form-item style="text-align: right">
-            <el-button :loading="loading" class="btn-login" type="primary" @click="tryLogin">登录</el-button>
+            <el-button :loading="loading" class="btn-login" type="primary" @click="onLogin">登录</el-button>
           </el-form-item>
           <div class="em-login-content-form-tip">账号:admin 密码:123</div>
         </el-form>
@@ -52,7 +52,6 @@
         </div>
       </div>
     </div>
-    <!--底部-->
     <div class="em-login-copyright">{{ config.copyright }}</div>
   </div>
 </template>
@@ -72,7 +71,7 @@ export default {
           code: ''
         }
       },
-      others: [{ img: require('../../assets/images/qywx.png') }, { img: require('../../assets/images/wechat.png') }, { img: require('../../assets/images/qq.png') }],
+      others: [{ img: require('../../assets/images/wechat.png') }, { img: require('../../assets/images/qq.png') }, { img: require('../../assets/images/qywx.png') }],
       rules: {
         userCode: [
           {
@@ -107,7 +106,7 @@ export default {
      * @description: 登录
      * @param {*}
      */
-    tryLogin() {
+    onLogin() {
       this.$refs.form.validate(async (valid) => {
         try {
           if (!valid) return false
@@ -148,7 +147,7 @@ export default {
     document.onkeydown = function (e) {
       let ev = document.all ? window.event : e
       if (ev.keyCode === 13) {
-        _this.tryLogin()
+        _this.onLogin()
       }
     }
     this.refreshVierifyCode()
@@ -157,45 +156,51 @@ export default {
 </script>
 <style lang="scss" scoped>
 .em-login {
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  background-position: center center;
-  background-image: url('../../assets/images/login-bg.jpg');
-  z-index: -1;
 
-  &-box {
+  background-size: 100% 100% !important;
+  background: url('../../assets/images/login-bg.png');
+  background-position: top center;
+
+  &-panel {
+    width: 400px;
+    height: 440px;
     padding: 10px 24px;
     border-radius: 5px;
     text-align: center;
-    width: 460px;
-    background: rgba(255, 255, 255, 0.6);
-    box-shadow: 0px 0px 12px #ccc;
+    background: #fff;
+    box-shadow: 0px 0px 12px #fff;
+    margin-left: 62%;
+    box-sizing:border-box;
   }
 
   &-content {
     &-header {
       width: 100%;
+      height: 50px;
+      line-height: 50px;
+      display: flex;
+      justify-content: center;
+      margin-top: 30px;
 
       &-logo {
-        height: 65px;
         text-align: center;
-        margin-top: 10px;
+
         &-img {
-          height: 65px;
+          height: 36px;
+          vertical-align: middle;
+          margin-right: 8px;
         }
       }
 
       &-title {
-        height: 50px;
-        line-height: 50px;
         text-align: center;
         font-size: 32px;
         font-weight: 800;
-        margin-top: 12px;
         letter-spacing: 2px;
         background-image: -webkit-linear-gradient(bottom, #1ccef4, #f053aa, #fbfcfd);
         -webkit-background-clip: text;
@@ -205,18 +210,53 @@ export default {
 
     &-form {
       box-sizing: border-box;
-      padding: 30px;
+      padding: 20px 30px 20px 30px;
 
       &-tip {
         text-align: left;
         color: #606266;
         font-size: 13px;
       }
-    }
 
-    .btn-login {
-      width: 100%;
-      cursor: pointer;
+      .verifycode {
+        display: flex;
+
+        &-input {
+          padding-right: 10px;
+          flex-grow: 1;
+        }
+
+        &-img {
+          flex-shrink: 0;
+
+          img {
+            margin-top: 1px;
+            height: 38px;
+            cursor: pointer;
+          }
+        }
+      }
+
+      .btn-login {
+        width: 100%;
+        cursor: pointer;
+      }
+
+      .em-icon {
+        font-size: 1.4em;
+        vertical-align: -0.2em;
+      }
+
+      .el-input__inner {
+        padding-left: 35px !important;
+      }
+
+      .el-button--primary {
+        background-color: #6d95f1 !important;
+        border-color: #6d95f1 !important;
+        font-size: 14px;
+        letter-spacing: 8px;
+      }
     }
 
     &-other {
@@ -233,63 +273,28 @@ export default {
         height: 40px;
         border-radius: 50%;
         margin-right: 10px;
-        background: #fff;
+        border: 1px solid #eff2f7;
+        background: rgba(109, 149, 241, 0.03);
+        transition: all 0.3s;
         img {
-          width: 60%;
-          height: 60%;
+          width: 50%;
+          height: 50%;
         }
         &:hover {
           cursor: pointer;
-          background: rgba(41, 105, 171, 0.5);
+          background: rgba(109, 149, 241, 0.1);
+          transform: scale(1.2);
         }
-      }
-    }
-  }
-
-  .verifycode {
-    display: flex;
-    flex-direction: row;
-    align-items: stretch;
-
-    &-input {
-      padding-right: 10px;
-      flex-grow: 1;
-    }
-
-    &-img {
-      flex-shrink: 0;
-
-      img {
-        margin-top: 1px;
-        height: 38px;
-        cursor: pointer;
       }
     }
   }
 
   &-copyright {
     position: absolute;
-    bottom: 22px;
+    bottom: 12px;
     width: 100%;
     text-align: center;
-    font-size: 13px;
-    color: #909399;
-  }
-
-  .em-icon {
-    font-size: 1.4em;
-    vertical-align: -0.2em;
-  }
-
-  .el-input__inner {
-    padding-left: 35px !important;
-  }
-
-  .el-button--primary {
-    background-color: #2969ab !important;
-    border-color: #2969ab !important;
-    font-size: 14px;
-    letter-spacing: 8px;
+    color: #e4e7ed;
   }
 }
 </style>
