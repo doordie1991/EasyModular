@@ -1,16 +1,19 @@
 <template>
   <div class="em-login">
-    <div class="em-login-panel">
-      <div class="em-login-content">
-        <!--头部-->
-        <div class="em-login-content-header">
-          <div class="em-login-content-header-logo">
-            <img class="em-login-content-header-logo-img" :src="config.logo" />
-          </div>
-          <div class="em-login-content-header-title">{{ config.title }}</div>
+    <div class="em-login-content">
+      <div class="em-system-title">
+        <div class="em-system-logo">
+          <img :src="config.logo" />
         </div>
-        <!--表单-->
-        <el-form class="em-login-content-form" ref="form" :model="form" :rules="rules">
+        <div class="em-system-name">
+          <div class="em-system-name-cn">权限管理系统</div>
+          <div class="em-system-name-en">Authority Management System</div>
+        </div>
+      </div>
+      <div class="em-login-img"></div>
+      <div class="em-login-form">
+        <div class="em-login-form-title">欢迎登录</div>
+        <el-form ref="form" :model="form" :rules="rules">
           <el-form-item prop="userCode">
             <el-input v-model="form.userCode" placeholder="用户名">
               <template v-slot:prefix>
@@ -21,7 +24,7 @@
           <el-form-item prop="password">
             <el-input type="password" v-model="form.password" autocomplete="off" placeholder="密码">
               <template v-slot:prefix>
-                <em-icon name="eye" />
+                <em-icon name="lock" />
               </template>
             </el-input>
           </el-form-item>
@@ -42,11 +45,10 @@
           <el-form-item style="text-align: right">
             <el-button :loading="loading" class="btn-login" type="primary" @click="onLogin">登录</el-button>
           </el-form-item>
-          <div class="em-login-content-form-tip">账号:admin 密码:123</div>
+          <div class="em-login-form-tip">账号:admin 密码:123</div>
         </el-form>
-        <!--第三方-->
-        <div class="em-login-content-other">
-          <div class="em-login-content-other-item" v-for="(item, index) in others" :key="index">
+        <div class="em-login-form-other">
+          <div class="em-login-form-other-item" v-for="(item, index) in others" :key="index">
             <img :src="item.img" />
           </div>
         </div>
@@ -154,68 +156,125 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 .em-login {
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
 
   background-size: 100% 100% !important;
   background: url('../../assets/images/login-bg.png');
   background-position: top center;
 
-  &-panel {
-    width: 400px;
-    height: 440px;
-    padding: 10px 24px;
-    border-radius: 5px;
-    text-align: center;
-    background: #fff;
-    box-shadow: 0px 0px 12px #fff;
-    margin-left: 62%;
-    box-sizing:border-box;
-  }
-
   &-content {
-    &-header {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 920px;
+    height: 420px;
+
+    .em-system-title {
+      position: absolute;
+      top: -120px;
+      left: -60px;
       width: 100%;
-      height: 50px;
-      line-height: 50px;
+
       display: flex;
-      justify-content: center;
-      margin-top: 30px;
+      .em-system-logo {
+        width: 60px;
+        height: 60px;
 
-      &-logo {
-        text-align: center;
-
-        &-img {
-          height: 36px;
-          vertical-align: middle;
-          margin-right: 8px;
+        img {
+          width: 100%;
         }
       }
 
-      &-title {
-        text-align: center;
-        font-size: 32px;
-        font-weight: 800;
-        letter-spacing: 2px;
-        background-image: -webkit-linear-gradient(bottom, #1ccef4, #f053aa, #fbfcfd);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+      .em-system-name {
+        display: flex;
+        flex-direction: column;
+        height: 60px;
+        margin-left: 20px;
+        color: #fff;
+        &-cn {
+          height: 40px;
+          line-height: 40px;
+          font-size: 24px;
+          font-weight: 600;
+          letter-spacing: 4px;
+        }
+        &-en {
+          height: 20px;
+          line-height: 20px;
+          font-size: 16px;
+        }
       }
     }
 
-    &-form {
+    .em-login-img {
+      width: 400px;
+      height: 400px;
+      background-size: 100% 100% !important;
+      background: url('../../assets/images/login.png');
+      background-position: top center;
+      margin-right: 110px;
+    }
+
+    .em-login-form {
+      width: 400px;
+      height: 400px;
+      padding: 30px 50px 30px 50px;
+      border-radius: 20px;
+      text-align: center;
+      background: #fff;
+      box-shadow: 0px 0px 12px #fff;
       box-sizing: border-box;
-      padding: 20px 30px 20px 30px;
+
+      &-title {
+        font-size: 24px;
+        color: #3b3b3b;
+        font-weight: 600;
+        letter-spacing: 2px;
+        margin-bottom: 30px;
+      }
 
       &-tip {
         text-align: left;
-        color: #606266;
-        font-size: 13px;
+        color: #ccced1;
+        margin-left: 8px;
+      }
+
+      &-other {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        height: 45px;
+        margin-top: 16px;
+
+        &-item {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          margin-right: 10px;
+          border: 1px solid #eff2f7;
+          background: rgba(109, 149, 241, 0.03);
+          transition: all 0.3s;
+          img {
+            width: 50%;
+            height: 50%;
+          }
+          &:hover {
+            cursor: pointer;
+            background: rgba(109, 149, 241, 0.1);
+            transform: scale(1.2);
+          }
+        }
       }
 
       .verifycode {
@@ -243,48 +302,29 @@ export default {
       }
 
       .em-icon {
-        font-size: 1.4em;
-        vertical-align: -0.2em;
+        font-size: 18px !important;
+        vertical-align: -3px;
+        color: #1dcd9e;
+        font-weight: 600;
+      }
+
+      .el-input__prefix {
+        margin-left: 8px;
       }
 
       .el-input__inner {
-        padding-left: 35px !important;
+        border-radius: 20px;
+        padding-left: 40px !important;
+        background-color: #f2f2f2 !important;
+        border: none !important;
       }
 
       .el-button--primary {
-        background-color: #6d95f1 !important;
-        border-color: #6d95f1 !important;
+        background-color: #1dcd9e !important;
+        border-color: #1dcd9e !important;
         font-size: 14px;
         letter-spacing: 8px;
-      }
-    }
-
-    &-other {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      height: 45px;
-
-      &-item {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        margin-right: 10px;
-        border: 1px solid #eff2f7;
-        background: rgba(109, 149, 241, 0.03);
-        transition: all 0.3s;
-        img {
-          width: 50%;
-          height: 50%;
-        }
-        &:hover {
-          cursor: pointer;
-          background: rgba(109, 149, 241, 0.1);
-          transform: scale(1.2);
-        }
+        border-radius: 20px;
       }
     }
   }
