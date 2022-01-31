@@ -9,7 +9,7 @@
 ![20210222002554](https://cdn.jsdelivr.net/gh/doordie1991/PicBed@main/picture/20210222002554.png)
 
 ## 官方示例
-http://90doordie.com/
+http://101.35.245.48
 
 ## 官方文档
 还在写.....:joy:
