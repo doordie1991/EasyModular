@@ -1,0 +1,26 @@
+{
+  //是否启用
+  "Enabled": false,
+  //是否启用日志
+  "EnabledLogger": true,
+  //调度器
+  "Scheduler": {
+    //实例
+    "InstanceName": "QuartzServer"
+  },
+  //数据存储
+  "JobStore": {
+    //存储方式
+    "Type": "Quartz.Impl.AdoJobStore.JobStoreTX, Quartz",
+    //处理DB的实例
+    "DriverDelegateType": "Quartz.Impl.AdoJobStore.StdAdoDelegate, Quartz",
+    //表前缀
+    "TablePrefix": "QRTZ_",
+    //数据源
+    "DataSource": "default",
+    //数据库连接串
+    "ConnectionString": "server=localhost;user id=root; password=xxx; database=QUARTZ;",
+    //数据库类型（SqlServer/MySql/SQLite-Microsoft/OracleODP/Npgsql）
+    "Provider": "MySql"
+  }
+}
