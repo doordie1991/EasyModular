@@ -53,7 +53,7 @@ export default {
         title: page.title,
         cols,
         action: api.query,
-        noOperation: true,
+        noOperateColumn: true,
         model: {
           //租户
           tenantId: '',

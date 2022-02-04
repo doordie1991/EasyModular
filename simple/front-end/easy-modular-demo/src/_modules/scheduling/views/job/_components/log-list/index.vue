@@ -38,7 +38,7 @@ export default {
       },
       list: {
         noHeader: true,
-        noOperation: true,
+        noOperateColumn: true,
         cols,
         action: api.query,
         model: {

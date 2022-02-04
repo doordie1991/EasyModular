@@ -41,7 +41,7 @@ export default {
         action: api.query,
         multiple: true,
         noHeader: true,
-        noOperation: true,
+        noOperateColumn: true,
         queryOnCreated: false,
         model: {
           //角色名称
