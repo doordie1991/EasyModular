@@ -67,6 +67,12 @@ namespace Demo.Admin.Infrastructure
                 if (propertyVal == null || IsMinTime(propertyVal))
                     continue;
 
+                //日期类型时必须指定转换类型，因为在linux系统中值可能转换为12小时制的时间值
+                if (propertyVal.GetType().Name == "DateTime" && condition.ConvertType == null)
+                {
+                    condition.ConvertType = EasyModular.SqlSugar.ConvertType.ToDateTime;
+                }
+
                 conModels.Add(new ConditionalModel()
                 {
                     FieldName = string.IsNullOrEmpty(condition.FieldName) ? property.Name : condition.FieldName,
